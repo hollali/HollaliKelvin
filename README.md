@@ -51,7 +51,7 @@ Ensure you have the following installed:
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/hollali/hollali.dev.git
+   git clone https://github.com/hollali/hollalkelvin.git
    cd hollali.dev
    ```
 
