@@ -124,7 +124,7 @@ export default function Contact() {
               <FaMapMarkerAlt className="h-6 w-6 text-primary" />
               <div>
                 <h3 className="font-semibold">Location</h3>
-                <p className="text-secondary">San Francisco, CA</p>
+                <p className="text-secondary">Accra, Ghana</p>
               </div>
             </motion.div>
           </motion.div>
