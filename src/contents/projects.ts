@@ -5,7 +5,7 @@ export const projects: Project[] = [
   {
     title: 'E-commerce Platform',
     description: 'A full-stack e-commerce platform built with Next.js, TypeScript, and Tailwind CSS.',
-    technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Firebase', 'Sentry', 'Paystack', 'Stripe'],
+    technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Sanity', 'Firebase', 'Sentry', 'Paystack', 'Stripe'],
     githubLink: 'https://github.com/hollali/e-commerce',
     demoLink: 'https://nadiabeads.netlify.app',
     image: '/projects/e-commerce-website.png',
