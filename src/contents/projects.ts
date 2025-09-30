@@ -16,7 +16,7 @@ export const projects: Project[] = [
     technologies: ['NextJs', 'React', 'Node.js', 'MongoDB', 'Socket.io', ' Inngest', 'Shadcn UI', 'Better Auth'],
     githubLink: 'https://github.com/tradeflow',
     demoLink: 'https://demo.com',
-    image: '/projects/stock-tracker-app.png',
+    image: '/projects/stock-market.png',
   },
   {
     title: 'Portfolio Website',
