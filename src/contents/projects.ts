@@ -8,7 +8,7 @@ export const projects: Project[] = [
     technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Sanity', 'Firebase', 'Sentry', 'Paystack', 'Stripe'],
     githubLink: 'https://github.com/hollali/e-commerce',
     demoLink: 'https://nadiabeads.netlify.app',
-    image: '/projects/e-commerce-website.png',
+    image: '/projects/Fashion E-commerce Wireframe Mockup.png',
   },
   {
     title: 'Stock Tracker App',
