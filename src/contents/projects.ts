@@ -15,7 +15,7 @@ export const projects: Project[] = [
     description: 'Stock Market app built with Next.js, Shadcn, Better Auth, and Inngest. Track prices, set alerts, explore insights, manage watchlists, and automate workflows for notifications and analytics',
     technologies: ['NextJs', 'Tailwind css', 'React', 'Node.js', 'MongoDB', 'Socket.io', ' Inngest', 'Shadcn UI', 'Better Auth'],
     githubLink: 'https://github.com/tradeflow',
-    demoLink: 'https://demo.com',
+    demoLink: 'https://tradeflowpulse.netlify.app/',
     image: '/projects/stock-market.png',
   },
   {
