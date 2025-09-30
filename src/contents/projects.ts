@@ -10,14 +10,14 @@ export const projects: Project[] = [
     demoLink: 'https://nadiabeads.netlify.app',
     image: '/projects/e-commerce-website.png',
   },
-  /*{
-    title: 'Task Management App',
-    description: 'A collaborative task management application with real-time updates.',
-    technologies: ['React', 'Node.js', 'MongoDB', 'Socket.io'],
-    githubLink: 'https://github.com',
+  {
+    title: 'Stock Tracker App',
+    description: 'Stock Market app built with Next.js, Shadcn, Better Auth, and Inngest. Track prices, set alerts, explore insights, manage watchlists, and automate workflows for notifications and analytics',
+    technologies: ['NextJs', 'React', 'Node.js', 'MongoDB', 'Socket.io', ' Inngest', 'Shadcn UI', 'Better Auth'],
+    githubLink: 'https://github.com/tradeflow',
     demoLink: 'https://demo.com',
-    image: '/projects/task-manager.webp',
-  },*/
+    image: '/projects/stock-tracker-app.png',
+  },
   {
     title: 'Portfolio Website',
     description: 'My personal portfolio website showcasing my projects and skills.',
