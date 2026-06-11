@@ -1,12 +1,51 @@
 'use client'
 
-import { projects } from '@/contents/projects'
+import { useState, useEffect } from 'react'
+import { getProjects } from '@/contents/projects'
+import type { Project } from '@/types'
 import Image from 'next/image'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import { fadeInUp, staggerContainer, cardHoverSmall } from '@/utils/animations'
 
 export default function Projects() {
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    getProjects().then((data) => {
+      setProjects(data)
+      setLoading(false)
+    })
+  }, [])
+
+  if (loading) {
+    return (
+      <section className="py-20">
+        <div className="container max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-12 text-center">Featured Projects</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-white dark:bg-dark/50 rounded-lg shadow-md p-6 animate-pulse">
+                <div className="aspect-video mb-4 rounded-lg bg-gray-200 dark:bg-gray-700" />
+                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2" />
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full mb-1" />
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3 mb-4" />
+                <div className="flex gap-2 mb-4">
+                  <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-16" />
+                  <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-20" />
+                  <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-14" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  if (projects.length === 0) return null
+
   return (
     <section className="py-20">
       <div className="container max-w-7xl mx-auto px-4">
@@ -106,4 +145,4 @@ export default function Projects() {
       </div>
     </section>
   )
-} 
+}

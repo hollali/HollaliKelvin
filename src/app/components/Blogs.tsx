@@ -1,12 +1,49 @@
 'use client'
 
-import { blogs } from '@/contents/blogs';
-import Link from 'next/link';
-import { FaCalendarAlt, FaClock } from 'react-icons/fa';
-import { motion } from 'framer-motion';
-import { fadeInUp, staggerContainer, cardHoverSmall } from '@/utils/animations';
+import { useState, useEffect } from 'react'
+import { getBlogs } from '@/contents/blogs'
+import type { Blog } from '@/types'
+import Link from 'next/link'
+import { FaCalendarAlt, FaClock } from 'react-icons/fa'
+import { motion } from 'framer-motion'
+import { fadeInUp, staggerContainer, cardHoverSmall } from '@/utils/animations'
 
 export default function Blogs() {
+  const [blogs, setBlogs] = useState<Blog[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    getBlogs().then((data) => {
+      setBlogs(data)
+      setLoading(false)
+    })
+  }, [])
+
+  if (loading) {
+    return (
+      <section className="py-20">
+        <div className="container max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-12 text-center">Latest Blog Posts</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-white dark:bg-dark/50 rounded-lg shadow-md p-6 animate-pulse">
+                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2" />
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full mb-1" />
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3 mb-4" />
+                <div className="flex gap-4">
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24" />
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-20" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  if (blogs.length === 0) return null
+
   return (
     <section className="py-20">
       <div className="container max-w-7xl mx-auto px-4">
@@ -93,4 +130,4 @@ export default function Blogs() {
       </div>
     </section>
   );
-} 
+}
