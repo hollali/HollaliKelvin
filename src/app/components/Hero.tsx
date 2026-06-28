@@ -100,14 +100,39 @@ export default function Hero() {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-transparent via-transparent to-[var(--terminal-accent)] opacity-30 animate-spin [animation-duration:3s]" />
-                <Image
-                  src="/hollali.jpeg"
-                  alt="Hollali"
-                  width={96}
-                  height={96}
-                  className="rounded-full object-cover border-2 border-[#2a2a2a] relative"
+                <motion.div
+                  className="absolute -inset-1 rounded-full opacity-40"
+                  style={{
+                    background: 'conic-gradient(from 0deg, var(--terminal-accent), transparent, var(--terminal-accent), transparent, var(--terminal-accent))',
+                  }}
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                 />
+                <motion.div
+                  className="w-24 h-24 rounded-full overflow-hidden border-2 relative"
+                  style={{
+                    borderColor: 'var(--terminal-accent)',
+                    boxShadow: '0 0 15px color-mix(in srgb, var(--terminal-accent) 30%, transparent)',
+                  }}
+                  animate={{ scale: [1, 1.03, 1] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <Image
+                    src="/hollali.jpeg"
+                    alt="Hollali"
+                    fill
+                    className="object-cover"
+                  />
+                  <motion.div
+                    className="absolute inset-0 rounded-full"
+                    style={{
+                      background: 'linear-gradient(180deg, transparent 0%, var(--terminal-accent) 50%, transparent 100%)',
+                      opacity: 0.1,
+                    }}
+                    animate={{ y: ['-100%', '100%'] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                  />
+                </motion.div>
               </motion.div>
               <div className="min-w-0 flex-1">
                 <motion.div
