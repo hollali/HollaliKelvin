@@ -77,7 +77,7 @@ export default function Hero() {
                   <FaGithub className="h-3 w-3" /> github
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/hollali-kelvin-18600b225/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="terminal-btn text-xs flex items-center gap-1"

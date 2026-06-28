@@ -9,16 +9,20 @@ export default function Footer() {
           <div className="text-[#666]">
             <span className="text-[#555]">~</span> $
             <span className="text-[#e0e0e0]"> Hollali </span>
-            <span className="text-[#555]">&copy; {new Date().getFullYear()}</span>
+            <span className="text-[#555]">
+              &copy; {new Date().getFullYear()}
+            </span>
           </div>
           <div className="flex space-x-4">
             <a
               href="https://github.com/hollali"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: '#666', transition: 'color 0.2s' }}
-              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--terminal-accent)'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
+              style={{ color: "#666", transition: "color 0.2s" }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.color = "var(--terminal-accent)")
+              }
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#666")}
             >
               <FaGithub className="h-4 w-4" />
             </a>
@@ -26,26 +30,28 @@ export default function Footer() {
               href="https://twitter.com/h_ollali"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: '#666', transition: 'color 0.2s' }}
-              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--terminal-accent)'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
+              style={{ color: "#666", transition: "color 0.2s" }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.color = "var(--terminal-accent)")
+              }
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#666")}
             >
               <FaTwitter className="h-4 w-4" />
             </a>
             <a
-              href="https://linkedin.com/in/yourusername"
+              href="https://www.linkedin.com/in/hollali-kelvin-18600b225/"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: '#666', transition: 'color 0.2s' }}
-              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--terminal-accent)'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
+              style={{ color: "#666", transition: "color 0.2s" }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.color = "var(--terminal-accent)")
+              }
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#666")}
             >
               <FaLinkedin className="h-4 w-4" />
             </a>
           </div>
-          <div className="text-[#555]">
-            --- EOF ---
-          </div>
+          <div className="text-[#555]">--- EOF ---</div>
         </div>
       </div>
     </footer>
