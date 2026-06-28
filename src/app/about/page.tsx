@@ -33,7 +33,15 @@ const skills = {
     "Django",
     "Flask",
   ],
-  build: ["Vite", "Webpack", "Babel", "ESLint", "Prettier"],
+  build: [
+    "Vite",
+    "Webpack",
+    "Babel",
+    "ESLint",
+    "Prettier",
+    "TurboRepo",
+    "Prisma",
+  ],
   authentication: [
     "JWT",
     "OAuth2",
@@ -56,6 +64,7 @@ const skills = {
     "Supabase",
     "Neo4j",
   ],
+  CLI: ["Bash", "Zsh", "Fish", "PowerShell", "Windows Command Prompt"],
   tools: ["Git / GitHub", "GitLab", "Docker", "AWS", "CI/CD"],
 };
 
@@ -137,6 +146,7 @@ export default function About() {
             },
             { title: "build", icon: FaCogs, items: skills.build },
             { title: "tools", icon: FaGraduationCap, items: skills.tools },
+            { title: "CLI", icon: FaLaptopCode, items: skills.CLI },
           ].map((group, gi) => (
             <motion.div
               key={group.title}
