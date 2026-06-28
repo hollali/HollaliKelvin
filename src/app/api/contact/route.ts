@@ -1,29 +1,34 @@
+import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
 
-interface ContactRequestBody {
-  name: string;
-  email: string;
-  message: string;
-}
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null
 
 export async function POST(request: Request) {
   try {
-    await request.json() as ContactRequestBody
-    // Here you would typically:
-    // 1. Validate the input
-    // 2. Send an email using a service like SendGrid, AWS SES, etc.
-    // 3. Store the message in a database if needed
+    const { name, email, message } = await request.json()
 
-    // For now, we'll just simulate a successful response
-    return NextResponse.json(
-      { message: 'Message sent successfully' },
-      { status: 200 }
-    )
-  } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'Failed to send message'
-    return NextResponse.json(
-      { message: errorMessage },
-      { status: 500 }
-    )
+    if (!name || !email || !message) {
+      return NextResponse.json({ error: 'All fields are required' }, { status: 400 })
+    }
+
+    if (!resend) {
+      console.log('[Contact] No RESEND_API_KEY configured. Demo mode.')
+      console.log({ name, email, message })
+      return NextResponse.json({ success: true, demo: true })
+    }
+
+    await resend.emails.send({
+      from: 'Portfolio Contact <onboarding@resend.dev>',
+      to: process.env.CONTACT_EMAIL || 'dheztinykartel@gmail.com',
+      replyTo: email,
+      subject: `Portfolio Contact from ${name}`,
+      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+    })
+
+    return NextResponse.json({ success: true })
+  } catch {
+    return NextResponse.json({ error: 'Failed to send message' }, { status: 500 })
   }
-} 
+}

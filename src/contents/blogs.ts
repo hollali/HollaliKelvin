@@ -1,7 +1,8 @@
 import type { Blog } from '@/types'
 
-export async function getBlogs(): Promise<Blog[]> {
-  const res = await fetch('/api/sanity/blogs')
+export async function getBlogs(tag?: string): Promise<Blog[]> {
+  const params = tag ? `?tag=${encodeURIComponent(tag)}` : ''
+  const res = await fetch(`/api/sanity/blogs${params}`)
   if (!res.ok) throw new Error('Failed to fetch blogs')
   return res.json()
 }

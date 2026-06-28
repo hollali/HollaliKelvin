@@ -13,5 +13,6 @@ export interface Blog {
   date: string;
   readTime: string;
   slug: string;
-  content?: any[];
+  tags?: string[];
+  content?: Record<string, unknown>[];
 }

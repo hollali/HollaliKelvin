@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hollali-portfolio.netlify.app/sitemap.xml

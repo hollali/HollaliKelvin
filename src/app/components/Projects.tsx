@@ -43,13 +43,12 @@ export default function Projects() {
           <div className="text-xs text-[#666] mb-4">
             <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ ls -la projects/
           </div>
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="terminal-card mb-3 animate-pulse">
-              <div className="h-4 bg-[#1a1a1a] rounded w-48 mb-2" />
-              <div className="h-3 bg-[#1a1a1a] rounded w-full mb-1" />
-              <div className="h-3 bg-[#1a1a1a] rounded w-3/4 mb-2" />
+          <div className="terminal-card">
+            <div className="text-xs text-[#666] font-mono">
+              <span style={{ color: 'var(--terminal-accent)' }}>$</span> fetching projects
+              <span className="terminal-loading" />
             </div>
-          ))}
+          </div>
         </div>
       </section>
     )
@@ -63,7 +62,8 @@ export default function Projects() {
         <motion.div
           className="text-xs text-[#666] mb-6"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
         >
           <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ ls -la projects/
           <span className="ml-2">| head -{projects.length}</span>
@@ -75,9 +75,11 @@ export default function Projects() {
             <motion.div
               key={project.title}
               className="terminal-card"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: idx * 0.08 }}
+              whileHover={{ y: -4, boxShadow: "0 8px 30px rgba(0,0,0,0.3)" }}
             >
               <div className="relative aspect-video mb-3 overflow-hidden border border-[#2a2a2a]">
                 <Image

@@ -148,13 +148,15 @@ export default function About() {
             { title: "tools", icon: FaGraduationCap, items: skills.tools },
             { title: "CLI", icon: FaLaptopCode, items: skills.CLI },
           ].map((group, gi) => (
-            <motion.div
-              key={group.title}
-              className="terminal-card"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 + gi * 0.1 }}
-            >
+              <motion.div
+                key={group.title}
+                className="terminal-card"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: gi * 0.08 }}
+                whileHover={{ y: -3, transition: { duration: 0.2 } }}
+              >
               <div className="flex items-center gap-2 mb-3">
                 <group.icon
                   className="h-4 w-4"

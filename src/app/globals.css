@@ -205,4 +205,25 @@
     text-transform: uppercase;
     letter-spacing: 1px;
   }
+
+  .cursor-blink {
+    animation: terminalCursor 1s step-end infinite;
+  }
+
+  @keyframes terminalCursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .terminal-loading::after {
+    content: '...';
+    animation: terminalLoading 1.5s steps(4) infinite;
+  }
+
+  @keyframes terminalLoading {
+    0% { content: '.'; }
+    25% { content: '..'; }
+    50% { content: '...'; }
+    75% { content: ''; }
+  }
 }

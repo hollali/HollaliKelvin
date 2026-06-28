@@ -1,0 +1,12 @@
+{
+  "name": "Hollali Portfolio",
+  "short_name": "Hollali",
+  "description": "Hollali's terminal-themed developer portfolio",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "48x48", "type": "image/x-icon" }
+  ]
+}

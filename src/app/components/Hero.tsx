@@ -9,11 +9,34 @@ import { useEffect, useState } from "react";
 const tagline =
   "Software Engineer | Mobile Developer | Web Developer |  Open Source Contributor";
 
+const bootLines = [
+  { text: "Initializing kernel...", delay: 0 },
+  { text: "Loading system modules...  [OK]", delay: 400 },
+  { text: "Mounting filesystems...     [OK]", delay: 800 },
+  { text: "Starting display server...  [OK]", delay: 1200 },
+  { text: "Launching shell...          [OK]", delay: 1600 },
+];
+
 export default function Hero() {
+  const [bootComplete, setBootComplete] = useState(false);
+  const [visibleBootLines, setVisibleBootLines] = useState(0);
   const [displayedTagline, setDisplayedTagline] = useState("");
   const [showCursor, setShowCursor] = useState(true);
 
   useEffect(() => {
+    if (visibleBootLines >= bootLines.length) {
+      const t = setTimeout(() => setBootComplete(true), 500)
+      return () => clearTimeout(t)
+    }
+    const t = setTimeout(
+      () => setVisibleBootLines((prev) => prev + 1),
+      bootLines[visibleBootLines]?.delay ?? 300
+    )
+    return () => clearTimeout(t)
+  }, [visibleBootLines])
+
+  useEffect(() => {
+    if (!bootComplete) return
     let i = 0;
     const interval = setInterval(() => {
       setDisplayedTagline(tagline.slice(0, i + 1));
@@ -24,78 +47,142 @@ export default function Hero() {
       }
     }, 30);
     return () => clearInterval(interval);
-  }, []);
+  }, [bootComplete]);
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-24 relative overflow-hidden">
       <div className="max-w-4xl mx-auto px-4">
-        <div className="terminal-card">
-          <div className="flex flex-col md:flex-row items-start gap-6">
-            <div className="shrink-0">
-              <Image
-                src="/hollali.jpeg"
-                alt="Hollali"
-                width={96}
-                height={96}
-                className="rounded-full object-cover border-2 border-[#2a2a2a]"
-              />
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="text-sm text-[#666] mb-1">
+        <motion.div
+          className="terminal-card relative"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          whileHover={{ boxShadow: "0 0 30px rgba(34,197,94,0.15)" }}
+        >
+          {!bootComplete ? (
+            <div className="p-4 font-mono text-xs">
+              <div className="text-[#555] mb-2">
                 <span style={{ color: "var(--terminal-accent)" }}>hollali</span>
-                @portfolio ~ %
+                @portfolio ~ % ./boot
               </div>
-              <motion.h1
-                className="text-2xl md:text-3xl font-mono mb-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
+              {bootLines.slice(0, visibleBootLines).map((line, i) => (
+                <motion.div
+                  key={i}
+                  className="mb-1"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <span className="text-[#555]">[ {String(i + 1).padStart(2, "0")} ]</span>{" "}
+                  <span className={line.text.includes("[OK]") ? "text-[#22c55e]" : "text-[#e0e0e0]"}>
+                    {line.text}
+                  </span>
+                </motion.div>
+              ))}
+              <motion.span
+                className="text-[#666]"
+                animate={{ opacity: [1, 0] }}
+                transition={{ duration: 0.8, repeat: Infinity }}
               >
-                <span style={{ color: "var(--terminal-accent)" }}>
-                  Hi, I&apos;m{" "}
-                </span>
-                <span className="text-[#ffb000]">Hollali</span>
-              </motion.h1>
-              <div className="text-sm text-[#e0e0e0] mb-4 min-h-[20px]">
-                <span style={{ color: "var(--terminal-accent)" }}>$ </span>
-                <span>{displayedTagline}</span>
-                {showCursor && <span className="animate-pulse">|</span>}
-              </div>
-              <div className="flex flex-wrap gap-3 mb-4 text-xs">
-                <Link href="/projects" className="terminal-btn text-xs">
-                  $ ./projects
-                </Link>
-                <Link href="/contact" className="terminal-btn text-xs">
-                  $ ./contact
-                </Link>
-                <a
-                  href="https://github.com/hollali"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="terminal-btn text-xs flex items-center gap-1"
-                >
-                  <FaGithub className="h-3 w-3" /> github
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/hollali-kelvin-18600b225/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="terminal-btn text-xs flex items-center gap-1"
-                >
-                  <FaLinkedin className="h-3 w-3" /> linkedin
-                </a>
-                <a
-                  href="https://twitter.com/h_ollali"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="terminal-btn text-xs flex items-center gap-1"
-                >
-                  <FaTwitter className="h-3 w-3" /> twitter
-                </a>
-              </div>
+                _
+              </motion.span>
             </div>
-          </div>
-        </div>
+          ) : (
+            <motion.div
+              className="flex flex-col md:flex-row items-start gap-6 p-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <motion.div
+                className="shrink-0 relative"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-transparent via-transparent to-[var(--terminal-accent)] opacity-30 animate-spin [animation-duration:3s]" />
+                <Image
+                  src="/hollali.jpeg"
+                  alt="Hollali"
+                  width={96}
+                  height={96}
+                  className="rounded-full object-cover border-2 border-[#2a2a2a] relative"
+                />
+              </motion.div>
+              <div className="min-w-0 flex-1">
+                <motion.div
+                  className="text-sm text-[#666] mb-1"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: 0.4 }}
+                >
+                  <span style={{ color: "var(--terminal-accent)" }}>hollali</span>
+                  @portfolio ~ %
+                </motion.div>
+                <motion.h1
+                  className="text-2xl md:text-3xl font-mono mb-2"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                >
+                  <span style={{ color: "var(--terminal-accent)" }}>
+                    Hi, I&apos;m{" "}
+                  </span>
+                  <span className="text-[#ffb000] inline-block" style={{ textShadow: "0 0 20px rgba(255,176,0,0.3)" }}>
+                    Hollali
+                  </span>
+                </motion.h1>
+                <motion.div
+                  className="text-sm text-[#e0e0e0] mb-4 min-h-[20px]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 0.8 }}
+                >
+                  <span style={{ color: "var(--terminal-accent)" }}>$ </span>
+                  <span>{displayedTagline}</span>
+                  {showCursor && <span className="cursor-blink">|</span>}
+                </motion.div>
+                <motion.div
+                  className="flex flex-wrap gap-3 mb-4 text-xs"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 1.0 }}
+                >
+                  {[
+                    { href: "/projects", label: "$ ./projects" },
+                    { href: "/contact", label: "$ ./contact" },
+                    { href: "https://github.com/hollali", label: "github", icon: FaGithub },
+                    { href: "https://www.linkedin.com/in/hollali-kelvin-18600b225/", label: "linkedin", icon: FaLinkedin },
+                    { href: "https://twitter.com/h_ollali", label: "twitter", icon: FaTwitter },
+                  ].map((btn, i) => (
+                    <motion.div
+                      key={btn.label}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: 1.0 + i * 0.08 }}
+                    >
+                      {btn.href.startsWith("http") ? (
+                        <a
+                          href={btn.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="terminal-btn text-xs flex items-center gap-1 cursor-pointer"
+                        >
+                          {"icon" in btn && btn.icon && <btn.icon className="h-3 w-3" />}
+                          {btn.label}
+                        </a>
+                      ) : (
+                        <Link href={btn.href} className="terminal-btn text-xs cursor-pointer">
+                          {btn.label}
+                        </Link>
+                      )}
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </motion.div>
       </div>
     </section>
   );

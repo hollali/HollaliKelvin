@@ -13,5 +13,6 @@ export const blogsQuery = `*[_type == "blog"] | order(date desc) {
   excerpt,
   date,
   readTime,
+  tags,
   "slug": slug.current
 }`

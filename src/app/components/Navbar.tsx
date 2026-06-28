@@ -2,12 +2,14 @@
 import Link from "next/link";
 import { useTheme, type TerminalMode } from "../context/ThemeContext";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const menuItems = [
   { href: "/", label: "home" },
   { href: "/about", label: "about" },
   { href: "/projects", label: "projects" },
   { href: "/blogs", label: "blogs" },
+  { href: "/resume", label: "resume" },
   { href: "/contact", label: "contact" },
 ];
 
@@ -31,7 +33,7 @@ export default function Navbar() {
           <div className="terminal-dot terminal-dot-yellow" />
           <div className="terminal-dot terminal-dot-green" />
         </div>
-        <span className="text-xs text-[#666] ml-2">
+        <span className="text-xs text-[#666] ml-2 max-sm:hidden">
           hollali@portfolio:~$
         </span>
         <div className="ml-auto flex items-center gap-4 text-xs">
@@ -81,21 +83,40 @@ export default function Navbar() {
           </button>
         </div>
       </div>
-      {open && (
-        <div className="sm:hidden border-b border-[#2a2a2a] p-2 space-y-1">
-          {menuItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="block px-2 py-1 text-sm hover:opacity-80 transition-opacity"
-              style={{ color: 'var(--terminal-accent)' }}
-              onClick={() => setOpen(false)}
-            >
-              $ cd {item.label}
-            </Link>
-          ))}
-        </div>
-      )}
+      <div className="hidden sm:flex justify-end px-4 py-1 border-b border-[#2a2a2a]">
+        <kbd className="text-[10px] text-[#555] font-mono">
+          ^K to search
+        </kbd>
+      </div>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="sm:hidden border-b border-[#2a2a2a] p-2 space-y-1 overflow-hidden"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {menuItems.map((item) => (
+              <motion.div
+                key={item.href}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Link
+                  href={item.href}
+                  className="block px-2 py-1 text-sm hover:opacity-80 transition-opacity"
+                  style={{ color: 'var(--terminal-accent)' }}
+                  onClick={() => setOpen(false)}
+                >
+                  $ cd {item.label}
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

@@ -25,13 +25,12 @@ export default function Blogs() {
           <div className="text-xs text-[#666] mb-4">
             <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ ls -la blogs/
           </div>
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="terminal-card mb-3 animate-pulse">
-              <div className="h-4 bg-[#1a1a1a] rounded w-56 mb-2" />
-              <div className="h-3 bg-[#1a1a1a] rounded w-full mb-1" />
-              <div className="h-3 bg-[#1a1a1a] rounded w-2/3" />
+          <div className="terminal-card">
+            <div className="text-xs text-[#666] font-mono">
+              <span style={{ color: 'var(--terminal-accent)' }}>$</span> fetching blogs
+              <span className="terminal-loading" />
             </div>
-          ))}
+          </div>
         </div>
       </section>
     )
@@ -45,7 +44,8 @@ export default function Blogs() {
         <motion.div
           className="text-xs text-[#666] mb-6"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
         >
           <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ ls -la blogs/
           <hr className="terminal-separator my-2" />
@@ -55,16 +55,23 @@ export default function Blogs() {
           {blogs.map((blog, idx) => (
             <motion.div
               key={blog.slug}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: idx * 0.06 }}
             >
               <Link
                 href={`/blogs/${blog.slug}`}
                 className="block terminal-card"
-                style={{ transition: 'border-color 0.2s' }}
-                onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--terminal-accent)'}
-                onMouseLeave={(e) => e.currentTarget.style.borderColor = ''}
+                style={{ transition: 'border-color 0.2s, transform 0.2s' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--terminal-accent)'
+                  e.currentTarget.style.transform = 'translateX(4px)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = ''
+                  e.currentTarget.style.transform = ''
+                }}
               >
                 <div className="flex items-start gap-4">
                   <div className="text-xs text-[#666] font-mono w-16 shrink-0 pt-0.5">
@@ -100,7 +107,8 @@ export default function Blogs() {
         <motion.div
           className="mt-6"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
           transition={{ delay: 0.3 }}
         >
           <Link href="/blogs" className="terminal-btn text-xs">

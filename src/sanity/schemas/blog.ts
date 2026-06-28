@@ -41,6 +41,15 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        layout: 'tags',
+      },
+    }),
+    defineField({
       name: 'content',
       title: 'Content',
       type: 'array',
