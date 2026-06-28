@@ -1,6 +1,13 @@
 "use client";
 
-import { FaCode, FaLaptopCode, FaGraduationCap } from "react-icons/fa";
+import {
+  FaCode,
+  FaLaptopCode,
+  FaGraduationCap,
+  FaDatabase,
+  FaLock,
+  FaCogs,
+} from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const skills = {
@@ -122,6 +129,13 @@ export default function About() {
           {[
             { title: "frontend", icon: FaCode, items: skills.frontend },
             { title: "backend", icon: FaLaptopCode, items: skills.backend },
+            { title: "database", icon: FaDatabase, items: skills.database },
+            {
+              title: "authentication",
+              icon: FaLock,
+              items: skills.authentication,
+            },
+            { title: "build", icon: FaCogs, items: skills.build },
             { title: "tools", icon: FaGraduationCap, items: skills.tools },
           ].map((group, gi) => (
             <motion.div
