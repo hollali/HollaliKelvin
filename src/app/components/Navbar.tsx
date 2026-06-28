@@ -48,7 +48,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="flex items-center gap-1.5">
+          <div className="hidden sm:flex items-center gap-1.5">
             {(Object.entries(modeDots) as [TerminalMode, string][]).map(([key, color]) => (
               <button
                 key={key}
