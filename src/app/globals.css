@@ -24,13 +24,11 @@
   --terminal-accent: #00ff41;
 }
 
-.amber {
-  --terminal-accent: #ffb000;
-}
-
-.green {
-  --terminal-accent: #00ff41;
-}
+.green  { --terminal-accent: #00ff41; }
+.amber  { --terminal-accent: #ffb000; }
+.blue   { --terminal-accent: #00bfff; }
+.purple { --terminal-accent: #bf7fff; }
+.red    { --terminal-accent: #ff4444; }
 
 @custom-variant dark (&:where(.dark, .dark *));
 

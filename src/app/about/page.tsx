@@ -4,9 +4,52 @@ import { FaCode, FaLaptopCode, FaGraduationCap } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const skills = {
-  frontend: ["React / Next.js", "TypeScript", "Tailwind CSS", "HTML5 / CSS3"],
-  backend: ["Node.js", "Express", "PostgreSQL", "MongoDB"],
-  tools: ["Git / GitHub", "Docker", "AWS", "CI/CD"],
+  frontend: [
+    "React / Next.js",
+    "TypeScript",
+    "Tailwind CSS",
+    "HTML5 / CSS3",
+    "JavaScript",
+    "SASS / SCSS",
+    "Vue.js",
+    "Angular",
+    "Redux",
+    "Zustand",
+  ],
+  backend: [
+    "Node.js",
+    "Express",
+    "PostgreSQL",
+    "PHP",
+    "MongoDB",
+    "Python",
+    "Django",
+    "Flask",
+  ],
+  build: ["Vite", "Webpack", "Babel", "ESLint", "Prettier"],
+  authentication: [
+    "JWT",
+    "OAuth2",
+    "Next Auth",
+    "Firebase Auth",
+    "Auth0",
+    "Clerk",
+    "Appwrite Auth",
+    "Supabase Auth",
+    "BetterStack Auth",
+  ],
+  database: [
+    "MySQL",
+    "PostgreSQL",
+    "MongoDB",
+    "Redis",
+    "SQLite",
+    "Firebase",
+    "Appwrite",
+    "Supabase",
+    "Neo4j",
+  ],
+  tools: ["Git / GitHub", "GitLab", "Docker", "AWS", "CI/CD"],
 };
 
 const experience = [
@@ -40,7 +83,8 @@ export default function About() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ cat about.md
+        <span style={{ color: "var(--terminal-accent)" }}>~</span> $ cat
+        about.md
         <hr className="terminal-separator my-2" />
       </motion.div>
 
@@ -50,7 +94,12 @@ export default function About() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
       >
-        <div className="text-sm mb-1" style={{ color: 'var(--terminal-accent)' }}># About Me</div>
+        <div
+          className="text-sm mb-1"
+          style={{ color: "var(--terminal-accent)" }}
+        >
+          # About Me
+        </div>
         <p className="text-xs text-[#e0e0e0] leading-relaxed">
           I&apos;m a passionate Software Developer with expertise in building
           modern web applications. With a strong foundation in both frontend and
@@ -66,7 +115,8 @@ export default function About() {
         transition={{ delay: 0.2 }}
       >
         <div className="text-xs text-[#666] mb-4">
-          <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ tree skills/
+          <span style={{ color: "var(--terminal-accent)" }}>~</span> $ tree
+          skills/
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
@@ -82,12 +132,23 @@ export default function About() {
               transition={{ delay: 0.2 + gi * 0.1 }}
             >
               <div className="flex items-center gap-2 mb-3">
-                <group.icon className="h-4 w-4" style={{ color: 'var(--terminal-accent)' }} />
-                <span className="text-xs" style={{ color: 'var(--terminal-accent)' }}>{group.title}/</span>
+                <group.icon
+                  className="h-4 w-4"
+                  style={{ color: "var(--terminal-accent)" }}
+                />
+                <span
+                  className="text-xs"
+                  style={{ color: "var(--terminal-accent)" }}
+                >
+                  {group.title}/
+                </span>
               </div>
               <div className="space-y-1">
                 {group.items.map((item) => (
-                  <div key={item} className="text-xs text-[#e0e0e0] flex items-center gap-2">
+                  <div
+                    key={item}
+                    className="text-xs text-[#e0e0e0] flex items-center gap-2"
+                  >
                     <span className="text-[#666]">|--</span>
                     {item}
                   </div>
@@ -105,7 +166,8 @@ export default function About() {
         transition={{ delay: 0.4 }}
       >
         <div className="text-xs text-[#666] mb-4">
-          <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ cat experience.log
+          <span style={{ color: "var(--terminal-accent)" }}>~</span> $ cat
+          experience.log
         </div>
         {experience.map((exp, ei) => (
           <motion.div
@@ -122,12 +184,18 @@ export default function About() {
               </div>
               <div className="min-w-0 flex-1">
                 <div className="text-sm text-[#e0e0e0] mb-1">{exp.title}</div>
-                <div className="text-xs mb-2" style={{ color: 'var(--terminal-accent)' }}>
+                <div
+                  className="text-xs mb-2"
+                  style={{ color: "var(--terminal-accent)" }}
+                >
                   {exp.company} &mdash; {exp.period}
                 </div>
                 <ul className="space-y-1">
                   {exp.items.map((item, ii) => (
-                    <li key={ii} className="text-xs text-[#666] flex items-start gap-2">
+                    <li
+                      key={ii}
+                      className="text-xs text-[#666] flex items-start gap-2"
+                    >
                       <span className="text-[#555]">*</span>
                       {item}
                     </li>
@@ -145,17 +213,24 @@ export default function About() {
         transition={{ delay: 0.6 }}
       >
         <div className="text-xs text-[#666] mb-4">
-          <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ cat education.md
+          <span style={{ color: "var(--terminal-accent)" }}>~</span> $ cat
+          education.md
         </div>
         <div className="terminal-card">
           <div className="text-sm text-[#e0e0e0] mb-1">
-            Bachelor of Science in Computer Science
+            Advanced Diploma in Software Engineering
           </div>
-          <div className="text-xs mb-2" style={{ color: 'var(--terminal-accent)' }}>
-            University Name &mdash; 2014 - 2018
+          <div
+            className="text-xs mb-2"
+            style={{ color: "var(--terminal-accent)" }}
+          >
+            IPMC University Collage &mdash; 2021 - 2025
           </div>
           <p className="text-xs text-[#666]">
-            Graduated with honors. Focused on software engineering and web development.
+            Graduated with honors. Focused on software engineering , web
+            development, and database management. Completed several projects
+            that involved full-stack development, including both frontend and
+            backend components.
           </p>
         </div>
       </motion.div>

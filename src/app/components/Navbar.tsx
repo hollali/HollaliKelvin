@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useTheme } from "../context/ThemeContext";
+import { useTheme, type TerminalMode } from "../context/ThemeContext";
 import { useState } from "react";
 
 const menuItems = [
@@ -11,8 +11,16 @@ const menuItems = [
   { href: "/contact", label: "contact" },
 ];
 
+const modeDots: Record<TerminalMode, string> = {
+  green: "#00ff41",
+  amber: "#ffb000",
+  blue: "#00bfff",
+  purple: "#bf7fff",
+  red: "#ff4444",
+};
+
 export default function Navbar() {
-  const { mode, toggleMode } = useTheme();
+  const { mode, toggleMode, setMode } = useTheme();
   const [open, setOpen] = useState(false);
 
   return (
@@ -39,14 +47,31 @@ export default function Navbar() {
               </Link>
             ))}
           </div>
+
+          <div className="flex items-center gap-1.5">
+            {(Object.entries(modeDots) as [TerminalMode, string][]).map(([key, color]) => (
+              <button
+                key={key}
+                onClick={() => setMode(key)}
+                className="w-2.5 h-2.5 rounded-full border border-[#2a2a2a] transition-all"
+                style={{
+                  backgroundColor: key === mode ? color : "transparent",
+                  transform: key === mode ? "scale(1.3)" : "scale(1)",
+                }}
+                title={`${key} mode`}
+              />
+            ))}
+          </div>
+
           <button
             onClick={toggleMode}
             className="hover:opacity-80 transition-opacity"
-            title={`Switch to ${mode === "green" ? "amber" : "green"} mode`}
+            title="Cycle mode"
             style={{ color: 'var(--terminal-accent)' }}
           >
-            [{mode === "green" ? "green" : "amber"}]
+            [{mode}]
           </button>
+
           <button
             onClick={() => setOpen(!open)}
             className="sm:hidden hover:opacity-80 transition-opacity"

@@ -2,7 +2,16 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-export type TerminalMode = "green" | "amber";
+const modes = ["green", "amber", "blue", "purple", "red"] as const;
+export type TerminalMode = (typeof modes)[number];
+
+const accentMap: Record<TerminalMode, string> = {
+  green: "#00ff41",
+  amber: "#ffb000",
+  blue: "#00bfff",
+  purple: "#bf7fff",
+  red: "#ff4444",
+};
 
 interface ThemeContextType {
   mode: TerminalMode;
@@ -21,14 +30,16 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("terminal-mode", newMode);
     document.documentElement.style.setProperty(
       "--terminal-accent",
-      newMode === "amber" ? "#ffb000" : "#00ff41"
+      accentMap[newMode]
     );
-    document.documentElement.classList.toggle("amber", newMode === "amber");
-    document.documentElement.classList.toggle("green", newMode === "green");
+    modes.forEach((m) =>
+      document.documentElement.classList.toggle(m, m === newMode)
+    );
   };
 
   const toggleMode = () => {
-    setMode(mode === "green" ? "amber" : "green");
+    const idx = modes.indexOf(mode);
+    setMode(modes[(idx + 1) % modes.length]);
   };
 
   useEffect(() => {
@@ -37,10 +48,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setModeState(initial);
     document.documentElement.style.setProperty(
       "--terminal-accent",
-      initial === "amber" ? "#ffb000" : "#00ff41"
+      accentMap[initial]
     );
-    document.documentElement.classList.toggle("amber", initial === "amber");
-    document.documentElement.classList.toggle("green", initial === "green");
+    modes.forEach((m) =>
+      document.documentElement.classList.toggle(m, m === initial)
+    );
     document.documentElement.classList.add("dark");
     setMounted(true);
   }, []);

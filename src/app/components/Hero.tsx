@@ -6,7 +6,8 @@ import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const tagline = "Software Engineer | Mobile Developer | Open Source Contributor";
+const tagline =
+  "Software Engineer | Mobile Developer | Web Developer |  Open Source Contributor";
 
 export default function Hero() {
   const [displayedTagline, setDisplayedTagline] = useState("");
@@ -34,14 +35,15 @@ export default function Hero() {
               <Image
                 src="/hollali.jpeg"
                 alt="Hollali"
-                width={80}
-                height={80}
-                className="border border-[#2a2a2a]"
+                width={96}
+                height={96}
+                className="rounded-full object-cover border-2 border-[#2a2a2a]"
               />
             </div>
             <div className="min-w-0 flex-1">
               <div className="text-sm text-[#666] mb-1">
-                <span style={{ color: 'var(--terminal-accent)' }}>hollali</span>@portfolio ~ %
+                <span style={{ color: "var(--terminal-accent)" }}>hollali</span>
+                @portfolio ~ %
               </div>
               <motion.h1
                 className="text-2xl md:text-3xl font-mono mb-2"
@@ -49,11 +51,13 @@ export default function Hero() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
               >
-                <span style={{ color: 'var(--terminal-accent)' }}>Hi, I&apos;m </span>
+                <span style={{ color: "var(--terminal-accent)" }}>
+                  Hi, I&apos;m{" "}
+                </span>
                 <span className="text-[#ffb000]">Hollali</span>
               </motion.h1>
               <div className="text-sm text-[#e0e0e0] mb-4 min-h-[20px]">
-                <span style={{ color: 'var(--terminal-accent)' }}>$ </span>
+                <span style={{ color: "var(--terminal-accent)" }}>$ </span>
                 <span>{displayedTagline}</span>
                 {showCursor && <span className="animate-pulse">|</span>}
               </div>
