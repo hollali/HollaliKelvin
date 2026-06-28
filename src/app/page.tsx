@@ -3,7 +3,6 @@ import Hero from "./components/Hero";
 import Newsletter from "./components/Newsletter";
 import Projects from "./components/Projects";
 
-
 export default function Home() {
   return (
     <main>
@@ -13,4 +12,4 @@ export default function Home() {
       <Newsletter />
     </main>
   );
-} 
+}

@@ -3,12 +3,6 @@
 import { useState } from "react";
 import { FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
-import {
-  fadeInUp,
-  fadeIn,
-  slideInLeft,
-  slideInRight,
-} from "@/utils/animations";
 
 interface FormData {
   name: string;
@@ -33,9 +27,7 @@ export default function Contact() {
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
@@ -58,168 +50,160 @@ export default function Contact() {
   };
 
   return (
-    <div className="container max-w-7xl mx-auto py-12">
-      <motion.h1 className="text-4xl font-bold mb-8 text-center" {...fadeInUp}>
-        Contact Me
-      </motion.h1>
+    <div className="max-w-4xl mx-auto py-12 px-4">
+      <motion.div
+        className="text-xs text-[#666] mb-8"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ ./contact
+        <hr className="terminal-separator my-2" />
+      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        {/* Contact Information */}
-        <motion.div className="space-y-8" {...slideInLeft}>
-          <motion.div {...fadeInUp}>
-            <h2 className="text-2xl font-semibold mb-4">Get in Touch</h2>
-            <p className="text-secondary">
-              I&apos;m always open to discussing new projects, creative ideas,
-              or opportunities to be part of your visions.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="space-y-4"
-            variants={fadeIn}
-            initial="initial"
-            animate="animate"
-          >
-            <motion.div
-              className="flex items-center gap-4"
-              variants={fadeInUp}
-              whileHover={{ x: 10 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <FaEnvelope className="h-6 w-6 text-primary" />
-              <div>
-                <h3 className="font-semibold">Email</h3>
-                <a
-                  href="mailto:dheztinykartel@gmail.com"
-                  className="text-secondary hover:text-primary"
-                >
-                  dheztinykartel@gmail.com
-                </a>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <div className="terminal-card mb-4">
+            <div className="text-sm text-[#e0e0e0] mb-3 font-mono">
+              # Contact Information
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3 text-xs">
+                <FaEnvelope className="h-4 w-4" style={{ color: 'var(--terminal-accent)' }} />
+                <div>
+                  <div className="text-[#666] text-[10px] uppercase">Email</div>
+                  <a
+                    href="mailto:dheztinykartel@gmail.com"
+                    style={{ transition: 'color 0.2s' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = 'var(--terminal-accent)'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = ''}
+                  >
+                    dheztinykartel@gmail.com
+                  </a>
+                </div>
               </div>
-            </motion.div>
-
-            <motion.div
-              className="flex items-center gap-4"
-              variants={fadeInUp}
-              whileHover={{ x: 10 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <FaPhone className="h-6 w-6 text-primary" />
-              <div>
-                <h3 className="font-semibold">Phone</h3>
-                <a
-                  href="tel:+233050306932"
-                  className="text-secondary hover:text-primary"
-                >
-                  0505306932
-                </a>
+              <div className="flex items-center gap-3 text-xs">
+                <FaPhone className="h-4 w-4" style={{ color: 'var(--terminal-accent)' }} />
+                <div>
+                  <div className="text-[#666] text-[10px] uppercase">Phone</div>
+                  <a
+                    href="tel:+233050306932"
+                    style={{ transition: 'color 0.2s' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = 'var(--terminal-accent)'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = ''}
+                  >
+                    0505306932
+                  </a>
+                </div>
               </div>
-            </motion.div>
-            <motion.div
-              className="flex items-center gap-4"
-              variants={fadeInUp}
-              whileHover={{ x: 10 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <FaMapMarkerAlt className="h-6 w-6 text-primary" />
-              <div>
-                <h3 className="font-semibold">Location</h3>
-                <p className="text-secondary">Accra, Ghana</p>
+              <div className="flex items-center gap-3 text-xs">
+                <FaMapMarkerAlt className="h-4 w-4" style={{ color: 'var(--terminal-accent)' }} />
+                <div>
+                  <div className="text-[#666] text-[10px] uppercase">Location</div>
+                  <span>Accra, Ghana</span>
+                </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
+          <div className="text-xs text-[#666] italic">
+            # I&apos;m always open to discussing new projects,
+            creative ideas, or opportunities.
+          </div>
         </motion.div>
 
-        {/* Contact Form */}
         <motion.div
-          className="bg-white dark:bg-dark/50 p-6 rounded-lg shadow-md"
-          {...slideInRight}
+          initial={{ opacity: 0, x: 10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
         >
-          <motion.form
-            onSubmit={handleSubmit}
-            className="space-y-6"
-            variants={fadeIn}
-            initial="initial"
-            animate="animate"
-          >
-            <motion.div variants={fadeInUp}>
-              <label htmlFor="name" className="block text-sm font-medium mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark focus:ring-2 focus:ring-primary focus:border-transparent"
-              />
-            </motion.div>
-
-            <motion.div variants={fadeInUp}>
-              <label htmlFor="email" className="block text-sm font-medium mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark focus:ring-2 focus:ring-primary focus:border-transparent"
-              />
-            </motion.div>
-
-            <motion.div variants={fadeInUp}>
-              <label
-                htmlFor="message"
-                className="block text-sm font-medium mb-2"
+          <div className="terminal-card">
+            <div className="text-xs mb-4" style={{ color: 'var(--terminal-accent)' }}>$ mail --send</div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="text-[10px] text-[#666] uppercase mb-1 block">Name</label>
+                <div className="relative">
+                  <span
+                    className="absolute left-0 top-1/2 -translate-y-1/2 text-xs"
+                    style={{ color: 'var(--terminal-accent)' }}
+                  >
+                    $
+                  </span>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="terminal-input pl-5 text-xs"
+                    placeholder="enter your name..."
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="text-[10px] text-[#666] uppercase mb-1 block">Email</label>
+                <div className="relative">
+                  <span
+                    className="absolute left-0 top-1/2 -translate-y-1/2 text-xs"
+                    style={{ color: 'var(--terminal-accent)' }}
+                  >
+                    $
+                  </span>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="terminal-input pl-5 text-xs"
+                    placeholder="enter your email..."
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="text-[10px] text-[#666] uppercase mb-1 block">Message</label>
+                <div className="relative">
+                  <span
+                    className="absolute left-0 top-2 text-xs"
+                    style={{ color: 'var(--terminal-accent)' }}
+                  >
+                    $
+                  </span>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    rows={4}
+                    className="terminal-input pl-5 text-xs resize-none"
+                    placeholder="enter your message..."
+                  />
+                </div>
+              </div>
+              <button
+                type="submit"
+                disabled={status === "loading"}
+                className="terminal-btn text-xs w-full"
               >
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows={4}
-                className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark focus:ring-2 focus:ring-primary focus:border-transparent"
-              />
-            </motion.div>
-
-            <motion.button
-              type="submit"
-              disabled={status === "loading"}
-              className="w-full btn btn-primary"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              {status === "loading" ? "Sending..." : "Send Message"}
-            </motion.button>
-
-            {status === "success" && (
-              <motion.p
-                className="text-green-500 text-center"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                Message sent successfully!
-              </motion.p>
-            )}
-
-            {status === "error" && (
-              <motion.p
-                className="text-red-500 text-center"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                Failed to send message. Please try again.
-              </motion.p>
-            )}
-          </motion.form>
+                {status === "loading" ? "sending..." : "[Send Message]"}
+              </button>
+              {status === "success" && (
+                <p className="text-xs text-center" style={{ color: 'var(--terminal-accent)' }}>
+                  # Message sent successfully!
+                </p>
+              )}
+              {status === "error" && (
+                <p className="text-[#ff4444] text-xs text-center">
+                  # Failed to send message. Please try again.
+                </p>
+              )}
+            </form>
+          </div>
         </motion.div>
       </div>
     </div>

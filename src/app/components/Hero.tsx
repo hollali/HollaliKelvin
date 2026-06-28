@@ -4,105 +4,93 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { fadeInUp, fadeIn, scaleIn } from "@/utils/animations";
+import { useEffect, useState } from "react";
+
+const tagline = "Software Engineer | Mobile Developer | Open Source Contributor";
 
 export default function Hero() {
+  const [displayedTagline, setDisplayedTagline] = useState("");
+  const [showCursor, setShowCursor] = useState(true);
+
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      setDisplayedTagline(tagline.slice(0, i + 1));
+      i++;
+      if (i >= tagline.length) {
+        clearInterval(interval);
+        setTimeout(() => setShowCursor(false), 2000);
+      }
+    }, 30);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="py-28">
-      <div className="container max-w-7xl mx-auto px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <motion.div
-            className="flex justify-center items-center mb-4"
-            {...scaleIn}
-            transition={{ delay: 0.2 }}
-          >
-            <Image
-              src="/hollali.jpeg"
-              alt="Profile"
-              width={100}
-              height={100}
-              className="rounded-full mb-4 w-32 h-32 object-cover ring-2 ring-primary"
-            />
-          </motion.div>
-          <motion.h1
-            className="text-4xl md:text-6xl font-bold mb-6"
-            {...fadeInUp}
-            transition={{ delay: 0.3 }}
-          >
-            Hi, I&apos;m{" "}
-            <motion.span
-              className="text-primary"
-              {...fadeIn}
-              transition={{ delay: 0.8 }}
-            >
-              Hollali
-            </motion.span>
-          </motion.h1>
-          <motion.p
-            className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8"
-            {...fadeInUp}
-            transition={{ delay: 0.4 }}
-          >
-            Software Engineer | Mobile Developer | Open Source Contributor
-          </motion.p>
-          <motion.div
-            className="flex justify-center space-x-4 mb-8"
-            {...fadeInUp}
-            transition={{ delay: 0.5 }}
-          >
-            <motion.a
-              href="https://github.com/hollali"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-2xl text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors"
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <FaGithub />
-            </motion.a>
-            <motion.a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-2xl text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors"
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <FaLinkedin />
-            </motion.a>
-            <motion.a
-              href="https://twitter.com/h_ollali"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-2xl text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors"
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <FaTwitter />
-            </motion.a>
-          </motion.div>
-          <motion.div
-            className="flex flex-col md:flex-row justify-center gap-4"
-            {...fadeInUp}
-            transition={{ delay: 0.6 }}
-          >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                href="/projects"
-                className="bg-primary inline-block w-full md:w-auto text-white px-8 py-3 rounded-lg hover:bg-primary/90 transition-colors"
+    <section className="py-16 md:py-24">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="terminal-card">
+          <div className="flex flex-col md:flex-row items-start gap-6">
+            <div className="shrink-0">
+              <Image
+                src="/hollali.jpeg"
+                alt="Hollali"
+                width={80}
+                height={80}
+                className="border border-[#2a2a2a]"
+              />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-sm text-[#666] mb-1">
+                <span style={{ color: 'var(--terminal-accent)' }}>hollali</span>@portfolio ~ %
+              </div>
+              <motion.h1
+                className="text-2xl md:text-3xl font-mono mb-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
               >
-                View Projects
-              </Link>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                href="/contact"
-                className=" inline-block w-full bg-gray-500  md:w-auto text-gray-800 dark:text-white px-8 py-3 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-              >
-                Contact Me
-              </Link>
-            </motion.div>
-          </motion.div>
+                <span style={{ color: 'var(--terminal-accent)' }}>Hi, I&apos;m </span>
+                <span className="text-[#ffb000]">Hollali</span>
+              </motion.h1>
+              <div className="text-sm text-[#e0e0e0] mb-4 min-h-[20px]">
+                <span style={{ color: 'var(--terminal-accent)' }}>$ </span>
+                <span>{displayedTagline}</span>
+                {showCursor && <span className="animate-pulse">|</span>}
+              </div>
+              <div className="flex flex-wrap gap-3 mb-4 text-xs">
+                <Link href="/projects" className="terminal-btn text-xs">
+                  $ ./projects
+                </Link>
+                <Link href="/contact" className="terminal-btn text-xs">
+                  $ ./contact
+                </Link>
+                <a
+                  href="https://github.com/hollali"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="terminal-btn text-xs flex items-center gap-1"
+                >
+                  <FaGithub className="h-3 w-3" /> github
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="terminal-btn text-xs flex items-center gap-1"
+                >
+                  <FaLinkedin className="h-3 w-3" /> linkedin
+                </a>
+                <a
+                  href="https://twitter.com/h_ollali"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="terminal-btn text-xs flex items-center gap-1"
+                >
+                  <FaTwitter className="h-3 w-3" /> twitter
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

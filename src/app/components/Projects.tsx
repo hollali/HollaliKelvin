@@ -6,7 +6,24 @@ import type { Project } from '@/types'
 import Image from 'next/image'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import { motion } from 'framer-motion'
-import { fadeInUp, staggerContainer, cardHoverSmall } from '@/utils/animations'
+
+const techColors: Record<string, string> = {
+  'React': '#61dafb',
+  'Next.js': '#fff',
+  'TypeScript': '#3178c6',
+  'JavaScript': '#f7df1e',
+  'Tailwind': '#06b6d4',
+  'Node.js': '#339933',
+  'Express': '#fff',
+  'MongoDB': '#47a248',
+  'PostgreSQL': '#336791',
+  'Docker': '#2496ed',
+  'AWS': '#ff9900',
+  'Python': '#3776ab',
+  'HTML': '#e34f26',
+  'CSS': '#1572b6',
+  'Git': '#f05032',
+}
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([])
@@ -21,24 +38,18 @@ export default function Projects() {
 
   if (loading) {
     return (
-      <section className="py-20">
-        <div className="container max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center">Featured Projects</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white dark:bg-dark/50 rounded-lg shadow-md p-6 animate-pulse">
-                <div className="aspect-video mb-4 rounded-lg bg-gray-200 dark:bg-gray-700" />
-                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2" />
-                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full mb-1" />
-                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3 mb-4" />
-                <div className="flex gap-2 mb-4">
-                  <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-16" />
-                  <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-20" />
-                  <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-14" />
-                </div>
-              </div>
-            ))}
+      <section className="py-12">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-xs text-[#666] mb-4">
+            <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ ls -la projects/
           </div>
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="terminal-card mb-3 animate-pulse">
+              <div className="h-4 bg-[#1a1a1a] rounded w-48 mb-2" />
+              <div className="h-3 bg-[#1a1a1a] rounded w-full mb-1" />
+              <div className="h-3 bg-[#1a1a1a] rounded w-3/4 mb-2" />
+            </div>
+          ))}
         </div>
       </section>
     )
@@ -47,29 +58,28 @@ export default function Projects() {
   if (projects.length === 0) return null
 
   return (
-    <section className="py-20">
-      <div className="container max-w-7xl mx-auto px-4">
-        <motion.h2 
-          className="text-3xl font-bold mb-12 text-center"
-          {...fadeInUp}
+    <section className="py-12">
+      <div className="max-w-6xl mx-auto px-4">
+        <motion.div
+          className="text-xs text-[#666] mb-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
         >
-          Featured Projects
-        </motion.h2>
+          <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ ls -la projects/
+          <span className="ml-2">| head -{projects.length}</span>
+          <hr className="terminal-separator my-2" />
+        </motion.div>
 
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-        >
-          {projects.map((project) => (
-            <motion.article
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {projects.map((project, idx) => (
+            <motion.div
               key={project.title}
-              className="bg-white dark:bg-dark/50 rounded-lg shadow-md p-6"
-              variants={fadeInUp}
-              {...cardHoverSmall}
+              className="terminal-card"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.08 }}
             >
-              <div className="relative aspect-video mb-4 rounded-lg overflow-hidden">
+              <div className="relative aspect-video mb-3 overflow-hidden border border-[#2a2a2a]">
                 <Image
                   src={project.image}
                   alt={project.title}
@@ -78,70 +88,50 @@ export default function Projects() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
-              <motion.h3 
-                className="text-xl font-semibold mb-2"
-                whileHover={{ x: 5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
+              <div className="text-xs text-[#666] mb-1">
+                drwxr-xr-x  hollali  hollali  <span className="text-[#e0e0e0]">{project.title.toLowerCase().replace(/\s+/g, '-')}</span>
+              </div>
+              <h3 className="text-sm font-mono text-[#e0e0e0] mb-1">
                 {project.title}
-              </motion.h3>
-              <motion.p 
-                className="text-gray-600 dark:text-gray-300 mb-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
+              </h3>
+              <p className="text-xs text-[#666] mb-3 line-clamp-2">
                 {project.description}
-              </motion.p>
-              <motion.div 
-                className="flex flex-wrap gap-2 mb-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-              >
+              </p>
+              <div className="flex flex-wrap gap-1.5 mb-3">
                 {project.technologies.map((tech) => (
-                  <motion.span
+                  <span
                     key={tech}
-                    className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
+                    className="terminal-tag text-[10px]"
+                    style={{
+                      borderColor: techColors[tech] || '#666',
+                      color: techColors[tech] || '#666',
+                    }}
                   >
                     {tech}
-                  </motion.span>
+                  </span>
                 ))}
-              </motion.div>
-              <motion.div 
-                className="flex gap-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-              >
-                <motion.a
+              </div>
+              <div className="flex gap-3 text-xs">
+                <a
                   href={project.githubLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-secondary hover:text-primary transition-colors"
-                  whileHover={{ x: 5 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="terminal-link text-[10px] flex items-center gap-1"
                 >
-                  <FaGithub className="h-5 w-5" />
-                  <span>Code</span>
-                </motion.a>
-                <motion.a
+                  <FaGithub className="h-3 w-3" /> ./code
+                </a>
+                <a
                   href={project.demoLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-secondary hover:text-primary transition-colors"
-                  whileHover={{ x: 5 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="terminal-link text-[10px] flex items-center gap-1"
                 >
-                  <FaExternalLinkAlt className="h-5 w-5" />
-                  <span>Live Demo</span>
-                </motion.a>
-              </motion.div>
-            </motion.article>
+                  <FaExternalLinkAlt className="h-3 w-3" /> ./demo
+                </a>
+              </div>
+            </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )

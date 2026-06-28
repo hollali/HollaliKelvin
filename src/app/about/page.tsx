@@ -2,171 +2,163 @@
 
 import { FaCode, FaLaptopCode, FaGraduationCap } from "react-icons/fa";
 import { motion } from "framer-motion";
-import {
-  fadeInUp,
-  fadeInDown,
-  fadeIn,
-  staggerContainer,
-  cardHover,
-  cardHoverSmall,
-} from "@/utils/animations";
+
+const skills = {
+  frontend: ["React / Next.js", "TypeScript", "Tailwind CSS", "HTML5 / CSS3"],
+  backend: ["Node.js", "Express", "PostgreSQL", "MongoDB"],
+  tools: ["Git / GitHub", "Docker", "AWS", "CI/CD"],
+};
+
+const experience = [
+  {
+    title: "Senior Full Stack Developer",
+    company: "Company Name",
+    period: "2020 - Present",
+    items: [
+      "Led development of multiple web applications using React and Node.js",
+      "Implemented CI/CD pipelines reducing deployment time by 50%",
+      "Mentored junior developers and conducted code reviews",
+    ],
+  },
+  {
+    title: "Full Stack Developer",
+    company: "Previous Company",
+    period: "2018 - 2020",
+    items: [
+      "Developed and maintained RESTful APIs",
+      "Built responsive user interfaces with modern JavaScript frameworks",
+      "Optimized database queries improving performance by 40%",
+    ],
+  },
+];
 
 export default function About() {
   return (
-    <div className="container max-w-7xl mx-auto py-12">
-      <motion.h1
-        className="text-4xl font-bold mb-8 text-center"
-        {...fadeInDown}
+    <div className="max-w-5xl mx-auto py-12 px-4">
+      <motion.div
+        className="text-xs text-[#666] mb-8"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
       >
-        About Me
-      </motion.h1>
+        <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ cat about.md
+        <hr className="terminal-separator my-2" />
+      </motion.div>
 
-      {/* Bio Section */}
-      <motion.section className="mb-16" {...fadeInUp}>
-        <p className="text-lg text-secondary max-w-3xl mx-auto text-center">
+      <motion.div
+        className="terminal-card mb-8"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+      >
+        <div className="text-sm mb-1" style={{ color: 'var(--terminal-accent)' }}># About Me</div>
+        <p className="text-xs text-[#e0e0e0] leading-relaxed">
           I&apos;m a passionate Software Developer with expertise in building
           modern web applications. With a strong foundation in both frontend and
           backend technologies, I create seamless user experiences and robust
           server-side solutions.
         </p>
-      </motion.section>
+      </motion.div>
 
-      {/* Skills Section */}
-      <motion.section className="mb-16" {...fadeIn} transition={{ delay: 0.2 }}>
-        <motion.h2 className="section-title" {...fadeInUp}>
-          Skills
-        </motion.h2>
-        <motion.div
-          className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-        >
-          <motion.div
-            className="bg-white dark:bg-dark/50 p-6 rounded-lg shadow-md"
-            variants={fadeInUp}
-            {...cardHover}
-          >
-            <FaCode className="h-8 w-8 text-primary mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Frontend</h3>
-            <ul className="text-secondary space-y-2">
-              <li>React / Next.js</li>
-              <li>TypeScript</li>
-              <li>Tailwind CSS</li>
-              <li>HTML5 / CSS3</li>
-            </ul>
-          </motion.div>
+      <motion.div
+        className="mb-8"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+      >
+        <div className="text-xs text-[#666] mb-4">
+          <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ tree skills/
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[
+            { title: "frontend", icon: FaCode, items: skills.frontend },
+            { title: "backend", icon: FaLaptopCode, items: skills.backend },
+            { title: "tools", icon: FaGraduationCap, items: skills.tools },
+          ].map((group, gi) => (
+            <motion.div
+              key={group.title}
+              className="terminal-card"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 + gi * 0.1 }}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <group.icon className="h-4 w-4" style={{ color: 'var(--terminal-accent)' }} />
+                <span className="text-xs" style={{ color: 'var(--terminal-accent)' }}>{group.title}/</span>
+              </div>
+              <div className="space-y-1">
+                {group.items.map((item) => (
+                  <div key={item} className="text-xs text-[#e0e0e0] flex items-center gap-2">
+                    <span className="text-[#666]">|--</span>
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
 
+      <motion.div
+        className="mb-8"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4 }}
+      >
+        <div className="text-xs text-[#666] mb-4">
+          <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ cat experience.log
+        </div>
+        {experience.map((exp, ei) => (
           <motion.div
-            className="bg-white dark:bg-dark/50 p-6 rounded-lg shadow-md"
-            variants={fadeInUp}
-            {...cardHover}
+            key={ei}
+            className="terminal-card mb-3"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 + ei * 0.1 }}
           >
-            <FaLaptopCode className="h-8 w-8 text-primary mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Backend</h3>
-            <ul className="text-secondary space-y-2">
-              <li>Node.js</li>
-              <li>Express</li>
-              <li>PostgreSQL</li>
-              <li>MongoDB</li>
-            </ul>
+            <div className="flex items-start gap-3">
+              <div className="text-[#666] text-xs font-mono mt-0.5">
+                {ei === 0 ? "│" : " "}
+                <br />{" "}
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-sm text-[#e0e0e0] mb-1">{exp.title}</div>
+                <div className="text-xs mb-2" style={{ color: 'var(--terminal-accent)' }}>
+                  {exp.company} &mdash; {exp.period}
+                </div>
+                <ul className="space-y-1">
+                  {exp.items.map((item, ii) => (
+                    <li key={ii} className="text-xs text-[#666] flex items-start gap-2">
+                      <span className="text-[#555]">*</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </motion.div>
+        ))}
+      </motion.div>
 
-          <motion.div
-            className="bg-white dark:bg-dark/50 p-6 rounded-lg shadow-md"
-            variants={fadeInUp}
-            {...cardHover}
-          >
-            <FaGraduationCap className="h-8 w-8 text-primary mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Tools & Others</h3>
-            <ul className="text-secondary space-y-2">
-              <li>Git / GitHub</li>
-              <li>Docker</li>
-              <li>AWS</li>
-              <li>CI/CD</li>
-            </ul>
-          </motion.div>
-        </motion.div>
-      </motion.section>
-
-      {/* Experience Section */}
-      <motion.section className="mb-16" {...fadeIn} transition={{ delay: 0.4 }}>
-        <motion.h2 className="section-title" {...fadeInUp}>
-          Experience
-        </motion.h2>
-        <motion.div
-          className="max-w-3xl mx-auto space-y-8"
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-        >
-          <motion.div
-            className="bg-white dark:bg-dark/50 p-6 rounded-lg shadow-md"
-            variants={fadeInUp}
-            {...cardHoverSmall}
-          >
-            <h3 className="text-xl font-semibold mb-2">
-              Senior Full Stack Developer
-            </h3>
-            <p className="text-primary mb-2">Company Name • 2020 - Present</p>
-            <ul className="text-secondary list-disc list-inside space-y-2">
-              <li>
-                Led development of multiple web applications using React and
-                Node.js
-              </li>
-              <li>
-                Implemented CI/CD pipelines reducing deployment time by 50%
-              </li>
-              <li>Mentored junior developers and conducted code reviews</li>
-            </ul>
-          </motion.div>
-
-          <motion.div
-            className="bg-white dark:bg-dark/50 p-6 rounded-lg shadow-md"
-            variants={fadeInUp}
-            {...cardHoverSmall}
-          >
-            <h3 className="text-xl font-semibold mb-2">Full Stack Developer</h3>
-            <p className="text-primary mb-2">Previous Company • 2018 - 2020</p>
-            <ul className="text-secondary list-disc list-inside space-y-2">
-              <li>Developed and maintained RESTful APIs</li>
-              <li>
-                Built responsive user interfaces with modern JavaScript
-                frameworks
-              </li>
-              <li>Optimized database queries improving performance by 40%</li>
-            </ul>
-          </motion.div>
-        </motion.div>
-      </motion.section>
-
-      {/* Education Section */}
-      <motion.section {...fadeIn} transition={{ delay: 0.6 }}>
-        <motion.h2 className="section-title" {...fadeInUp}>
-          Education
-        </motion.h2>
-        <motion.div
-          className="max-w-3xl mx-auto"
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-        >
-          <motion.div
-            className="bg-white dark:bg-dark/50 p-6 rounded-lg shadow-md"
-            variants={fadeInUp}
-            {...cardHoverSmall}
-          >
-            <h3 className="text-xl font-semibold mb-2">
-              Bachelor of Science in Computer Science
-            </h3>
-            <p className="text-primary mb-2">University Name • 2014 - 2018</p>
-            <p className="text-secondary">
-              Graduated with honors. Focused on software engineering and web
-              development.
-            </p>
-          </motion.div>
-        </motion.div>
-      </motion.section>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6 }}
+      >
+        <div className="text-xs text-[#666] mb-4">
+          <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ cat education.md
+        </div>
+        <div className="terminal-card">
+          <div className="text-sm text-[#e0e0e0] mb-1">
+            Bachelor of Science in Computer Science
+          </div>
+          <div className="text-xs mb-2" style={{ color: 'var(--terminal-accent)' }}>
+            University Name &mdash; 2014 - 2018
+          </div>
+          <p className="text-xs text-[#666]">
+            Graduated with honors. Focused on software engineering and web development.
+          </p>
+        </div>
+      </motion.div>
     </div>
   );
 }

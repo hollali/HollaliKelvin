@@ -2,51 +2,55 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "light" | "dark";
+export type TerminalMode = "green" | "amber";
 
 interface ThemeContextType {
-  theme: Theme;
-  toggleTheme: () => void;
-  setTheme: (theme: Theme) => void;
+  mode: TerminalMode;
+  toggleMode: () => void;
+  setMode: (mode: TerminalMode) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("light");
+  const [mode, setModeState] = useState<TerminalMode>("green");
   const [mounted, setMounted] = useState(false);
 
-  // Update theme
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-    localStorage.setItem("theme", newTheme);
-    document.documentElement.classList.toggle("dark", newTheme === "dark");
+  const setMode = (newMode: TerminalMode) => {
+    setModeState(newMode);
+    localStorage.setItem("terminal-mode", newMode);
+    document.documentElement.style.setProperty(
+      "--terminal-accent",
+      newMode === "amber" ? "#ffb000" : "#00ff41"
+    );
+    document.documentElement.classList.toggle("amber", newMode === "amber");
+    document.documentElement.classList.toggle("green", newMode === "green");
   };
 
-  // Toggle theme
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-    console.log(theme);
+  const toggleMode = () => {
+    setMode(mode === "green" ? "amber" : "green");
   };
 
-  // Initialize theme
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as Theme | null;
-    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    const initialTheme = savedTheme || systemTheme;
-
-    setThemeState(initialTheme);
-    document.documentElement.classList.toggle("dark", initialTheme === "dark");
+    const saved = localStorage.getItem("terminal-mode") as TerminalMode | null;
+    const initial = saved || "green";
+    setModeState(initial);
+    document.documentElement.style.setProperty(
+      "--terminal-accent",
+      initial === "amber" ? "#ffb000" : "#00ff41"
+    );
+    document.documentElement.classList.toggle("amber", initial === "amber");
+    document.documentElement.classList.toggle("green", initial === "green");
+    document.documentElement.classList.add("dark");
     setMounted(true);
   }, []);
 
-  // Prevent flash of wrong theme
   if (!mounted) {
     return null;
   }
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
+    <ThemeContext.Provider value={{ mode, toggleMode, setMode }}>
       {children}
     </ThemeContext.Provider>
   );

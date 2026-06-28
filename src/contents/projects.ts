@@ -1,13 +1,7 @@
-import { client } from '@/sanity/client'
 import type { Project } from '@/types'
 
 export async function getProjects(): Promise<Project[]> {
-  return client.fetch(`*[_type == "project"] | order(orderRank) {
-    title,
-    description,
-    technologies,
-    githubLink,
-    demoLink,
-    "image": image.asset->url
-  }`)
+  const res = await fetch('/api/sanity/projects')
+  if (!res.ok) throw new Error('Failed to fetch projects')
+  return res.json()
 }

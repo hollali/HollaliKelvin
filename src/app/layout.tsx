@@ -1,14 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./context/ThemeContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -16,10 +11,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title:
-    "Hollali | Portfolio Website using Next.js, Tailwind CSS, and Framer Motion",
-  description:
-    "Devfolio is a portfolio website for developers to showcase their projects and skills.",
+  title: "hollali@portfolio:~$",
+  description: "Hollali's portfolio - a terminal-themed developer portfolio",
 };
 
 export default function RootLayout({
@@ -28,13 +21,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`bg-white transition-colors dark:bg-gray-900 dark:text-white ${geistSans.variable} ${geistMono.variable}`}
-      >
+    <html lang="en" className="dark">
+      <body className={`font-mono bg-[#0a0a0a] text-[#e0e0e0] ${geistMono.variable}`}>
+        <div className="scanline-overlay" />
         <ThemeProvider>
           <Navbar />
-          <main className="min-h-screen pt-24">{children}</main>
+          <main className="min-h-screen">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>
