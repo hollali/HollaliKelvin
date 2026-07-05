@@ -30,7 +30,7 @@ export default function Projects() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getProjects().then((data) => {
+    getProjects({ featured: true }).then((data) => {
       setProjects(data)
       setLoading(false)
     })

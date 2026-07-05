@@ -43,6 +43,13 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'featured',
+      title: 'Featured',
+      type: 'boolean',
+      description: 'Show on the home page',
+      initialValue: false,
+    }),
+    defineField({
       name: 'orderRank',
       title: 'Order Rank',
       type: 'number',

@@ -1,14 +1,20 @@
 import { client } from '@/sanity/client'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET() {
-  const projects = await client.fetch(`*[_type == "project"] | order(orderRank) {
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url)
+  const featured = searchParams.get('featured')
+
+  const filter = featured === 'true' ? ' && featured == true' : ''
+
+  const projects = await client.fetch(`*[_type == "project"${filter}] | order(orderRank) {
     _id,
     title,
     description,
     technologies,
     githubLink,
     demoLink,
+    featured,
     "image": image.asset->url
   }`)
   return NextResponse.json(projects)
