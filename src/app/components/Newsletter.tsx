@@ -51,10 +51,13 @@ export default function Newsletter() {
               <span
                 className="absolute left-0 top-1/2 -translate-y-1/2 text-xs"
                 style={{ color: 'var(--terminal-accent)' }}
+                aria-hidden="true"
               >
                 $
               </span>
+              <label htmlFor="newsletter-email" className="sr-only">Email address</label>
               <input
+                id="newsletter-email"
                 type="email"
                 placeholder="enter your email..."
                 className="terminal-input pl-5 text-xs"

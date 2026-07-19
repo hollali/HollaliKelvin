@@ -6,34 +6,19 @@ import type { Project } from '@/types'
 import Image from 'next/image'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import { motion } from 'framer-motion'
-
-const techColors: Record<string, string> = {
-  'React': '#61dafb',
-  'Next.js': '#fff',
-  'TypeScript': '#3178c6',
-  'JavaScript': '#f7df1e',
-  'Tailwind': '#06b6d4',
-  'Node.js': '#339933',
-  'Express': '#fff',
-  'MongoDB': '#47a248',
-  'PostgreSQL': '#336791',
-  'Docker': '#2496ed',
-  'AWS': '#ff9900',
-  'Python': '#3776ab',
-  'HTML': '#e34f26',
-  'CSS': '#1572b6',
-  'Git': '#f05032',
-}
+import { techColors } from '@/lib/constants'
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getProjects({ featured: true }).then((data) => {
-      setProjects(data)
-      setLoading(false)
-    })
+    getProjects({ featured: true })
+      .then((data) => {
+        setProjects(data)
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
   }, [])
 
   if (loading) {
@@ -119,6 +104,7 @@ export default function Projects() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="terminal-link text-[10px] flex items-center gap-1"
+                  aria-label={`${project.title} source code on GitHub`}
                 >
                   <FaGithub className="h-3 w-3" /> ./code
                 </a>
@@ -127,6 +113,7 @@ export default function Projects() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="terminal-link text-[10px] flex items-center gap-1"
+                  aria-label={`${project.title} live demo`}
                 >
                   <FaExternalLinkAlt className="h-3 w-3" /> ./demo
                 </a>

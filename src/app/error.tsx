@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 export default function Error({ reset }: { error: Error; reset: () => void }) {
   return (
     <div className="max-w-3xl mx-auto py-20 px-4 text-center">
@@ -21,9 +23,9 @@ export default function Error({ reset }: { error: Error; reset: () => void }) {
           >
             $ ./retry
           </button>
-          <a href="/" className="terminal-btn text-xs">
+          <Link href="/" className="terminal-btn text-xs">
             $ cd ~
-          </a>
+          </Link>
         </div>
         <div className="text-[10px] text-[#555] mt-4 font-mono">
           signal 11 (SIGSEGV)

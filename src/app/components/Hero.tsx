@@ -6,8 +6,15 @@ import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
+const asciiArt = `
+ _   _ ____  _       ____ _  __
+| | | |  _ \\| |     / ___| |/ /
+| |_| | |_) | |     \\___ \\ ' /
+|  _  |  _ <| |___  ___) | . \\
+|_| |_|_| \\_\\_____|____/|_|\\_\\`;
+
 const tagline =
-  "Software Engineer | Mobile Developer | Web Developer |  Open Source Contributor";
+  "Building modern web & mobile applications with clean code and solid architecture.";
 
 const bootLines = [
   { text: "Initializing kernel...", delay: 0 },
@@ -17,36 +24,53 @@ const bootLines = [
   { text: "Launching shell...          [OK]", delay: 1600 },
 ];
 
+function getTypingDelay(char: string, prevChar: string): number {
+  if (char === ' ') return 60;
+  if (char === '|' || char === '-') return 80;
+  if (prevChar === ' ') return 40;
+  return 25 + Math.random() * 15;
+}
+
 export default function Hero() {
   const [bootComplete, setBootComplete] = useState(false);
   const [visibleBootLines, setVisibleBootLines] = useState(0);
   const [displayedTagline, setDisplayedTagline] = useState("");
   const [showCursor, setShowCursor] = useState(true);
+  const [showAscii, setShowAscii] = useState(false);
 
   useEffect(() => {
     if (visibleBootLines >= bootLines.length) {
-      const t = setTimeout(() => setBootComplete(true), 500)
-      return () => clearTimeout(t)
+      const t = setTimeout(() => {
+        setBootComplete(true);
+        setTimeout(() => setShowAscii(true), 200);
+      }, 500);
+      return () => clearTimeout(t);
     }
     const t = setTimeout(
       () => setVisibleBootLines((prev) => prev + 1),
       bootLines[visibleBootLines]?.delay ?? 300
-    )
-    return () => clearTimeout(t)
-  }, [visibleBootLines])
+    );
+    return () => clearTimeout(t);
+  }, [visibleBootLines]);
 
   useEffect(() => {
-    if (!bootComplete) return
+    if (!bootComplete) return;
     let i = 0;
-    const interval = setInterval(() => {
-      setDisplayedTagline(tagline.slice(0, i + 1));
-      i++;
+    let timeoutId: ReturnType<typeof setTimeout>;
+
+    function typeNext() {
       if (i >= tagline.length) {
-        clearInterval(interval);
         setTimeout(() => setShowCursor(false), 2000);
+        return;
       }
-    }, 30);
-    return () => clearInterval(interval);
+      setDisplayedTagline(tagline.slice(0, i + 1));
+      const delay = getTypingDelay(tagline[i], tagline[i - 1] || '');
+      i++;
+      timeoutId = setTimeout(typeNext, delay);
+    }
+
+    timeoutId = setTimeout(typeNext, 300);
+    return () => clearTimeout(timeoutId);
   }, [bootComplete]);
 
   return (
@@ -144,19 +168,17 @@ export default function Hero() {
                   <span style={{ color: "var(--terminal-accent)" }}>hollali</span>
                   @portfolio ~ %
                 </motion.div>
-                <motion.h1
-                  className="text-2xl md:text-3xl font-mono mb-2"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
+
+                <motion.pre
+                  className="text-[10px] md:text-xs mb-3 leading-tight font-mono whitespace-pre overflow-x-auto"
+                  style={{ color: 'var(--terminal-accent)' }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: showAscii ? 1 : 0 }}
+                  transition={{ duration: 0.8 }}
                 >
-                  <span style={{ color: "var(--terminal-accent)" }}>
-                    Hi, I&apos;m{" "}
-                  </span>
-                  <span className="text-[#ffb000] inline-block" style={{ textShadow: "0 0 20px rgba(255,176,0,0.3)" }}>
-                    Hollali
-                  </span>
-                </motion.h1>
+                  {asciiArt}
+                </motion.pre>
+
                 <motion.div
                   className="text-sm text-[#e0e0e0] mb-4 min-h-[20px]"
                   initial={{ opacity: 0 }}
@@ -166,6 +188,19 @@ export default function Hero() {
                   <span style={{ color: "var(--terminal-accent)" }}>$ </span>
                   <span>{displayedTagline}</span>
                   {showCursor && <span className="cursor-blink">|</span>}
+                </motion.div>
+                <motion.div
+                  className="text-xs text-[#999] mb-4 leading-relaxed max-w-lg"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 1.4 }}
+                >
+                  Hi, I&apos;m <span className="text-[#e0e0e0]">Hollali Kelvin</span> — a software engineer from
+                  Accra, Ghana. I specialize in <span style={{ color: "var(--terminal-accent)" }}>React</span>,{" "}
+                  <span style={{ color: "var(--terminal-accent)" }}>Next.js</span>, and{" "}
+                  <span style={{ color: "var(--terminal-accent)" }}>Node.js</span>, with experience building
+                  full-stack web apps, mobile interfaces, and cloud-deployed services. Currently focused on
+                  creating performant, accessible experiences and contributing to open source.
                 </motion.div>
                 <motion.div
                   className="flex flex-wrap gap-3 mb-4 text-xs"
@@ -192,8 +227,9 @@ export default function Hero() {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="terminal-btn text-xs flex items-center gap-1 cursor-pointer"
+                          aria-label={btn.label}
                         >
-                          {"icon" in btn && btn.icon && <btn.icon className="h-3 w-3" />}
+                          {"icon" in btn && btn.icon && <btn.icon className="h-3 w-3" aria-hidden="true" />}
                           {btn.label}
                         </a>
                       ) : (

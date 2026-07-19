@@ -1,15 +1,15 @@
-import Blogs from "./components/Blogs";
-import Hero from "./components/Hero";
-import Newsletter from "./components/Newsletter";
-import Projects from "./components/Projects";
+import HomeClient from './HomeClient'
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "hollali@portfolio:~$",
+  description: "Hollali Kelvin - Software Engineer, Mobile Developer, and Web Developer. View my projects, blog posts, and get in touch.",
+  openGraph: {
+    title: "hollali@portfolio:~$",
+    description: "Hollali Kelvin - Software Engineer, Mobile Developer, and Web Developer.",
+  },
+};
 
 export default function Home() {
-  return (
-    <main>
-      <Hero />
-      <Projects />
-      <Blogs />
-      <Newsletter />
-    </main>
-  );
+  return <HomeClient />
 }

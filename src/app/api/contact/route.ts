@@ -14,8 +14,6 @@ export async function POST(request: Request) {
     }
 
     if (!resend) {
-      console.log('[Contact] No RESEND_API_KEY configured. Demo mode.')
-      console.log({ name, email, message })
       return NextResponse.json({ success: true, demo: true })
     }
 

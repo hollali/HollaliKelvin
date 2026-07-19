@@ -101,6 +101,19 @@
   animation: var(--animation-scanline);
 }
 
+.crt-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background:
+    radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.25) 100%);
+}
+
+.crt-text-glow {
+  text-shadow: 0 0 2px currentColor;
+}
+
 .terminal-glow {
   animation: terminalGlow 3s ease-in-out infinite;
 }
@@ -225,5 +238,19 @@
     25% { content: '..'; }
     50% { content: '...'; }
     75% { content: ''; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scanline-overlay,
+  .cursor-blink,
+  .terminal-loading::after {
+    animation: none !important;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

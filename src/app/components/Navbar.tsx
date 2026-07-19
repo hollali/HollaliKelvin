@@ -11,6 +11,7 @@ const menuItems = [
   { href: "/blogs", label: "blogs" },
   { href: "/resume", label: "resume" },
   { href: "/contact", label: "contact" },
+  { href: "/terminal", label: "terminal" },
 ];
 
 const modeDots: Record<TerminalMode, string> = {
@@ -26,7 +27,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="terminal-window border-x-0 border-t-0">
+    <nav className="terminal-window border-x-0 border-t-0" aria-label="Main navigation">
       <div className="terminal-titlebar">
         <div className="flex gap-1.5">
           <div className="terminal-dot terminal-dot-red" />
@@ -50,7 +51,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="hidden sm:flex items-center gap-1.5">
+          <div className="hidden sm:flex items-center gap-1.5" role="radiogroup" aria-label="Theme color">
             {(Object.entries(modeDots) as [TerminalMode, string][]).map(([key, color]) => (
               <button
                 key={key}
@@ -61,6 +62,9 @@ export default function Navbar() {
                   transform: key === mode ? "scale(1.3)" : "scale(1)",
                 }}
                 title={`${key} mode`}
+                role="radio"
+                aria-checked={key === mode}
+                aria-label={`${key} theme`}
               />
             ))}
           </div>
@@ -70,6 +74,7 @@ export default function Navbar() {
             className="hover:opacity-80 transition-opacity"
             title="Cycle mode"
             style={{ color: 'var(--terminal-accent)' }}
+            aria-label={`Current theme: ${mode}. Click to cycle.`}
           >
             [{mode}]
           </button>
@@ -78,6 +83,9 @@ export default function Navbar() {
             onClick={() => setOpen(!open)}
             className="sm:hidden hover:opacity-80 transition-opacity"
             style={{ color: 'var(--terminal-accent)' }}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? "Close menu" : "Open menu"}
           >
             [{open ? "close" : "menu"}]
           </button>
@@ -91,11 +99,13 @@ export default function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
+            id="mobile-menu"
             className="sm:hidden border-b border-[#2a2a2a] p-2 space-y-1 overflow-hidden"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
+            role="menu"
           >
             {menuItems.map((item) => (
               <motion.div
@@ -109,6 +119,7 @@ export default function Navbar() {
                   className="block px-2 py-1 text-sm hover:opacity-80 transition-opacity"
                   style={{ color: 'var(--terminal-accent)' }}
                   onClick={() => setOpen(false)}
+                  role="menuitem"
                 >
                   $ cd {item.label}
                 </Link>

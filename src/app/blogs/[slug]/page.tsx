@@ -10,6 +10,7 @@ import { notFound } from 'next/navigation'
 import ReadingProgress from '@/app/components/ReadingProgress'
 import ShareButtons from '@/app/components/ShareButtons'
 import TableOfContents from '@/app/components/TableOfContents'
+import { tagColors } from '@/lib/constants'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -74,7 +75,7 @@ const components = {
       </blockquote>
     ),
     code: ({ children }: { children?: ReactNode }) => (
-      <code className="text-xs bg-[#1a1a1a] px-1.5 py-0.5 rounded" style={{ color: 'var(--terminal-accent)' }}>
+      <code className="text-xs bg-[#1a1a1a] px-1.5 py-0.5" style={{ color: 'var(--terminal-accent)' }}>
         {children}
       </code>
     ),
@@ -108,23 +109,6 @@ const components = {
     },
   },
   hardBreak: () => <br />,
-}
-
-const tagColors: Record<string, string> = {
-  'JavaScript': '#f7df1e',
-  'TypeScript': '#3178c6',
-  'React': '#61dafb',
-  'Next.js': '#fff',
-  'Node.js': '#339933',
-  'Python': '#3776ab',
-  'CSS': '#1572b6',
-  'HTML': '#e34f26',
-  'Docker': '#2496ed',
-  'Git': '#f05032',
-  'Tutorial': '#a855f7',
-  'Guide': '#06b6d4',
-  'DevOps': '#ff9900',
-  'Performance': '#ef4444',
 }
 
 export default async function BlogPost({ params }: Props) {

@@ -48,6 +48,7 @@ export default function Footer() {
                 style={{ color: "#666" }}
                 whileHover={{ color: "var(--terminal-accent)", scale: 1.2 }}
                 transition={{ type: "spring", stiffness: 300 }}
+                aria-label={link.label}
               >
                 <link.icon className="h-4 w-4" />
               </motion.a>
@@ -60,7 +61,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.3 }}
           >
-            --- EOF ---
+            exit code: <span style={{ color: 'var(--terminal-accent)' }}>0</span>
           </motion.div>
         </div>
       </div>

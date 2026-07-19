@@ -11,6 +11,7 @@ const pages = [
   { path: '/blogs', label: 'Blogs', cmd: 'ls -la blogs/', type: 'page' as const },
   { path: '/contact', label: 'Contact', cmd: './contact', type: 'page' as const },
   { path: '/resume', label: 'Resume', cmd: 'cat resume.md', type: 'page' as const },
+  { path: '/terminal', label: 'Terminal', cmd: './terminal', type: 'page' as const },
 ]
 
 interface ContentItem {
@@ -117,6 +118,9 @@ export default function CommandPalette() {
     <div
       className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh]"
       onClick={() => setOpen(false)}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Command palette"
     >
       <div className="fixed inset-0 bg-black/70" />
       <div
@@ -124,7 +128,7 @@ export default function CommandPalette() {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-2 px-4 py-3 border-b border-[#2a2a2a]">
-          <FaSearch className="h-3 w-3 text-[#666]" />
+          <FaSearch className="h-3 w-3 text-[#666]" aria-hidden="true" />
           <span className="text-xs text-[#666]" style={{ color: 'var(--terminal-accent)' }}>$</span>
           <input
             ref={inputRef}
@@ -134,10 +138,11 @@ export default function CommandPalette() {
             onKeyDown={onKeyDown}
             placeholder="type a command or page name..."
             className="flex-1 bg-transparent border-none outline-none text-xs text-[#e0e0e0] font-mono placeholder:text-[#555]"
+            aria-label="Search pages and content"
           />
           <kbd className="text-[10px] text-[#555] border border-[#2a2a2a] px-1.5 py-0.5">esc</kbd>
         </div>
-        <div className="max-h-64 overflow-y-auto">
+        <div className="max-h-64 overflow-y-auto" role="listbox">
           {results.length === 0 ? (
             <div className="px-4 py-6 text-center text-xs text-[#555] font-mono">
               No results for &ldquo;{query}&rdquo;
@@ -152,12 +157,14 @@ export default function CommandPalette() {
                 style={{
                   backgroundColor: idx === selectedIdx ? 'rgba(255,255,255,0.05)' : 'transparent',
                 }}
+                role="option"
+                aria-selected={idx === selectedIdx}
               >
                 <span className="font-mono shrink-0" style={{ color: item.type === 'page' ? 'var(--terminal-accent)' : '#666' }}>
                   {item.type === 'page' ? (
-                    <FaFolder className="h-3 w-3" />
+                    <FaFolder className="h-3 w-3" aria-hidden="true" />
                   ) : (
-                    <FaFile className="h-3 w-3" />
+                    <FaFile className="h-3 w-3" aria-hidden="true" />
                   )}
                 </span>
                 <span className="font-mono text-[#e0e0e0] truncate">{item.cmd}</span>

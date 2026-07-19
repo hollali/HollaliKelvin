@@ -61,7 +61,7 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
         <span className="text-[#555]">{collapsed ? '[+]' : '[-]'}</span>
       </button>
       {!collapsed && (
-        <nav className="mt-2 space-y-1">
+        <nav className="mt-2 space-y-1" aria-label="Table of contents">
           {headings.map((h) => (
             <a
               key={h.id}

@@ -11,7 +11,7 @@ export default function NotFound() {
         <p className="text-xs text-[#666] mb-6 font-mono">
           The page you&apos;re looking for does not exist.
           <br />
-          <span className="text-[#555]">Maybe you misstyped the path?</span>
+          <span className="text-[#555]">Maybe you mistyped the path?</span>
         </p>
         <div className="text-xs text-[#666] mb-6 font-mono">
           <span style={{ color: 'var(--terminal-accent)' }}>$</span> ls -la /pages/

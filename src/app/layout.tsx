@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import CommandPalette from "./components/CommandPalette";
 import Analytics from "./components/Analytics";
+import StatusBar from "./components/StatusBar";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -47,11 +48,16 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`font-mono bg-[#0a0a0a] text-[#e0e0e0] ${geistMono.variable}`}>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[10000] focus:top-2 focus:left-2 focus:terminal-btn focus:text-xs">
+          Skip to content
+        </a>
         <div className="scanline-overlay" />
+        <div className="crt-overlay" />
         <ThemeProvider>
           <Navbar />
-          <main className="min-h-screen">{children}</main>
+          <main id="main-content" className="min-h-screen pb-8">{children}</main>
           <Footer />
+          <StatusBar />
           <CommandPalette />
           <Analytics />
         </ThemeProvider>
