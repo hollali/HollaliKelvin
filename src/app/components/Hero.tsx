@@ -145,6 +145,8 @@ export default function Hero() {
                     src="/hollali.jpeg"
                     alt="Hollali"
                     fill
+                    sizes="96px"
+                    loading="eager"
                     className="object-cover"
                   />
                   <motion.div
