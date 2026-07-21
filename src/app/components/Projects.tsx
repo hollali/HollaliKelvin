@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react'
 import { getProjects } from '@/contents/projects'
 import type { Project } from '@/types'
-import Image from 'next/image'
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import { motion } from 'framer-motion'
-import { techColors } from '@/lib/constants'
+import { isMobileProject } from '@/lib/constants'
+import TerminalCard from './TerminalCard'
+import ProjectPhone from './ProjectPhone'
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([])
@@ -55,69 +55,21 @@ export default function Projects() {
           <hr className="terminal-separator my-2" />
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           {projects.map((project, idx) => (
             <motion.div
               key={project.title}
-              className="terminal-card"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.08 }}
-              whileHover={{ y: -4, boxShadow: "0 8px 30px rgba(0,0,0,0.3)" }}
+              className={isMobileProject(project.technologies) ? 'flex justify-center' : ''}
             >
-              <div className="relative aspect-video mb-3 overflow-hidden border border-[#2a2a2a]">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
-              <div className="text-xs text-[#666] mb-1">
-                drwxr-xr-x  hollali  hollali  <span className="text-[#e0e0e0]">{project.title.toLowerCase().replace(/\s+/g, '-')}</span>
-              </div>
-              <h3 className="text-sm font-mono text-[#e0e0e0] mb-1">
-                {project.title}
-              </h3>
-              <p className="text-xs text-[#666] mb-3 line-clamp-2">
-                {project.description}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mb-3">
-                {project.technologies.map((tech) => (
-                  <span
-                    key={tech}
-                    className="terminal-tag text-[10px]"
-                    style={{
-                      borderColor: techColors[tech] || '#666',
-                      color: techColors[tech] || '#666',
-                    }}
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-              <div className="flex gap-3 text-xs">
-                <a
-                  href={project.githubLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="terminal-link text-[10px] flex items-center gap-1"
-                  aria-label={`${project.title} source code on GitHub`}
-                >
-                  <FaGithub className="h-3 w-3" /> ./code
-                </a>
-                <a
-                  href={project.demoLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="terminal-link text-[10px] flex items-center gap-1"
-                  aria-label={`${project.title} live demo`}
-                >
-                  <FaExternalLinkAlt className="h-3 w-3" /> ./demo
-                </a>
-              </div>
+              {isMobileProject(project.technologies) ? (
+                <ProjectPhone project={project} />
+              ) : (
+                <TerminalCard project={project} />
+              )}
             </motion.div>
           ))}
         </div>

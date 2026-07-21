@@ -241,6 +241,19 @@
   }
 }
 
+.project-card {
+  border: 1px solid var(--color-terminal-border);
+  background: var(--color-terminal-surface);
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.project-card:hover {
+  border-color: var(--terminal-accent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .scanline-overlay,
   .cursor-blink,
@@ -252,5 +265,107 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* iPhone 16 Card Styles */
+.iphone-frame {
+  --iphone-width: 260px;
+  position: relative;
+  width: var(--iphone-width);
+  aspect-ratio: 9 / 16;
+  background: #1a1a1a;
+  border-radius: 40px;
+  border: 2px solid #2a2a2a;
+  overflow: hidden;
+  box-shadow: 
+    0 0 0 1px #333,
+    0 10px 40px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.iphone-frame:hover {
+  border-color: var(--terminal-accent);
+  box-shadow: 
+    0 0 0 1px var(--terminal-accent),
+    0 15px 50px rgba(0, 0, 0, 0.6),
+    0 0 30px color-mix(in srgb, var(--terminal-accent) 20%, transparent),
+    inset 0 0 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-8px);
+}
+
+.iphone-screen {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  background: var(--color-terminal-surface);
+  border-radius: 37px;
+  overflow: hidden;
+}
+
+.dynamic-island {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 18px;
+  background: #000;
+  border-radius: 12px;
+  z-index: 10;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.iphone-button {
+  position: absolute;
+  background: #2a2a2a;
+  z-index: 5;
+}
+
+.iphone-button-power {
+  right: -2px;
+  top: 30%;
+  width: 2px;
+  height: 40px;
+  border-radius: 0 2px 2px 0;
+}
+
+.iphone-button-volume-up {
+  left: -2px;
+  top: 25%;
+  width: 2px;
+  height: 25px;
+  border-radius: 2px 0 0 2px;
+}
+
+.iphone-button-volume-down {
+  left: -2px;
+  top: 35%;
+  width: 2px;
+  height: 25px;
+  border-radius: 2px 0 0 2px;
+}
+
+.iphone-button-action {
+  left: -2px;
+  top: 45%;
+  width: 2px;
+  height: 20px;
+  border-radius: 2px 0 0 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .iphone-frame {
+    --iphone-width: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+  .iphone-frame {
+    --iphone-width: 200px;
   }
 }

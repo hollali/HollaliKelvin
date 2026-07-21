@@ -3,15 +3,18 @@
 import { useState, useEffect, useMemo } from 'react'
 import { getProjects } from '@/contents/projects'
 import type { Project } from '@/types'
-import Image from 'next/image'
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import { motion } from 'framer-motion'
-import { techColors } from '@/lib/constants'
+import ProjectPhone from '../components/ProjectPhone'
+import TerminalCard from '../components/TerminalCard'
+import { techColors, isMobileProject } from '@/lib/constants'
+
+const PER_PAGE = 6
 
 export default function ProjectsClient() {
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<string | null>(null)
+  const [page, setPage] = useState(0)
 
   useEffect(() => {
     getProjects()
@@ -33,6 +36,13 @@ export default function ProjectsClient() {
     [projects, filter]
   )
 
+  const paged = useMemo(
+    () => filtered.slice(0, (page + 1) * PER_PAGE),
+    [filtered, page]
+  )
+
+  const hasMore = paged.length < filtered.length
+
   return (
     <div className="max-w-6xl mx-auto py-12 px-4">
       <motion.div
@@ -48,7 +58,7 @@ export default function ProjectsClient() {
       {!loading && allTags.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mb-6">
           <button
-            onClick={() => setFilter(null)}
+            onClick={() => { setFilter(null); setPage(0) }}
             className={`terminal-tag text-[10px] cursor-pointer transition-colors ${
               !filter ? 'opacity-100' : 'opacity-50 hover:opacity-80'
             }`}
@@ -59,7 +69,7 @@ export default function ProjectsClient() {
           {allTags.map((tag) => (
             <button
               key={tag}
-              onClick={() => setFilter(tag === filter ? null : tag)}
+              onClick={() => { setFilter(tag === filter ? null : tag); setPage(0) }}
               className="terminal-tag text-[10px] cursor-pointer transition-colors"
               style={{
                 borderColor: filter === tag ? (techColors[tag] || '#666') : undefined,
@@ -74,7 +84,7 @@ export default function ProjectsClient() {
       )}
 
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <div key={i} className="terminal-card animate-pulse">
               <div className="aspect-video bg-[#1a1a1a] mb-3" />
@@ -93,74 +103,44 @@ export default function ProjectsClient() {
           </div>
         </div>
       ) : (
+        <>
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          {filtered.map((project, idx) => (
+          {paged.map((project, idx) => (
             <motion.div
               key={project.title}
-              className="terminal-card"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
+              className={isMobileProject(project.technologies) ? 'flex justify-center' : ''}
             >
-              <div className="relative aspect-video mb-3 overflow-hidden border border-[#2a2a2a]">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
-              <div className="text-xs text-[#666] mb-1 font-mono truncate">
-                drwxr-xr-x  hollali  hollali  <span className="text-[#e0e0e0]">{project.title.toLowerCase().replace(/\s+/g, '-')}</span>
-              </div>
-              <h2 className="text-sm font-mono text-[#e0e0e0] mb-1">
-                {project.title}
-              </h2>
-              <p className="text-xs text-[#666] mb-3 line-clamp-2">
-                {project.description}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mb-3">
-                {project.technologies.map((tech) => (
-                  <span
-                    key={tech}
-                    className="terminal-tag text-[10px]"
-                    style={{
-                      borderColor: techColors[tech] || '#666',
-                      color: techColors[tech] || '#666',
-                    }}
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-              <div className="flex gap-3 text-xs">
-                <a
-                  href={project.githubLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="terminal-link text-[10px] flex items-center gap-1"
-                  aria-label={`${project.title} source code on GitHub`}
-                >
-                  <FaGithub className="h-3 w-3" /> ./code
-                </a>
-                <a
-                  href={project.demoLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="terminal-link text-[10px] flex items-center gap-1"
-                  aria-label={`${project.title} live demo`}
-                >
-                  <FaExternalLinkAlt className="h-3 w-3" /> ./demo
-                </a>
-              </div>
+              {isMobileProject(project.technologies) ? (
+                <ProjectPhone project={project} />
+              ) : (
+                <TerminalCard project={project} />
+              )}
             </motion.div>
           ))}
         </motion.div>
+
+        {hasMore && (
+          <motion.div
+            className="text-center pt-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <button
+              onClick={() => setPage((prev) => prev + 1)}
+              className="terminal-btn text-xs"
+            >
+              $ ls projects/ --page {page + 2}
+            </button>
+          </motion.div>
+        )}
+        </>
       )}
     </div>
   )

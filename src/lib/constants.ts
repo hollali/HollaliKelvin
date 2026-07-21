@@ -14,6 +14,25 @@ export const techColors: Record<string, string> = {
   'HTML': '#e34f26',
   'CSS': '#1572b6',
   'Git': '#f05032',
+  'React Native': '#61dafb',
+  'Flutter': '#02569B',
+  'Dart': '#00B4AB',
+  'Swift': '#F05138',
+  'Kotlin': '#7F52FF',
+  'Java': '#ED8B00',
+  'Objective-C': '#438eff',
+  'Xcode': '#147EFB',
+  'Android': '#3DDC84',
+  'iOS': '#000000',
+}
+
+const MOBILE_TECHS = new Set([
+  'React Native', 'Flutter', 'Dart', 'Swift', 'Kotlin',
+  'Java', 'Objective-C', 'Xcode', 'Android', 'iOS',
+])
+
+export function isMobileProject(technologies: string[]): boolean {
+  return technologies.some((t) => MOBILE_TECHS.has(t))
 }
 
 export const tagColors: Record<string, string> = {

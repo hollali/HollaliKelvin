@@ -15,7 +15,8 @@ export async function GET(request: NextRequest) {
     githubLink,
     demoLink,
     featured,
-    "image": image.asset->url
+    "image": image.asset->url,
+    "images": images[].asset->url
   }`)
   return NextResponse.json(projects)
 }

@@ -43,6 +43,18 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'images',
+      title: 'Images',
+      type: 'array',
+      of: [{
+        type: 'image',
+        options: {
+          hotspot: true,
+        },
+      }],
+      description: 'Additional images for the project carousel (first image will be the main screenshot)',
+    }),
+    defineField({
       name: 'featured',
       title: 'Featured',
       type: 'boolean',
