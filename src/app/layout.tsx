@@ -6,7 +6,6 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import CommandPalette from "./components/CommandPalette";
 import Analytics from "./components/Analytics";
-import StatusBar from "./components/StatusBar";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -54,10 +53,11 @@ export default function RootLayout({
         <div className="scanline-overlay" />
         <div className="crt-overlay" />
         <ThemeProvider>
-          <Navbar />
-          <main id="main-content" className="min-h-screen pb-8">{children}</main>
-          <Footer />
-          <StatusBar />
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <main id="main-content" className="flex-1">{children}</main>
+            <Footer />
+          </div>
           <CommandPalette />
           <Analytics />
         </ThemeProvider>

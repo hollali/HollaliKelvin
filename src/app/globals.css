@@ -273,7 +273,7 @@
   --iphone-width: 260px;
   position: relative;
   width: var(--iphone-width);
-  aspect-ratio: 9 / 16;
+  aspect-ratio: 9 / 19.5;
   background: #1a1a1a;
   border-radius: 40px;
   border: 2px solid #2a2a2a;
