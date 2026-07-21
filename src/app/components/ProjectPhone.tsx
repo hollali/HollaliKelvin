@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import { techColors } from '@/lib/constants'
@@ -11,10 +12,16 @@ interface ProjectPhoneProps {
 }
 
 export default function ProjectPhone({ project }: ProjectPhoneProps) {
+  const [active, setActive] = useState(false)
   const allImages = [project.image, ...(project.images || [])].filter(Boolean)
 
   return (
-    <div className="iphone-frame group">
+    <div
+      className="iphone-frame group"
+      onClick={() => setActive((prev) => !prev)}
+      onMouseEnter={() => setActive(true)}
+      onMouseLeave={() => setActive(false)}
+    >
       {/* Dynamic Island */}
       <div className="dynamic-island" />
       
@@ -38,11 +45,11 @@ export default function ProjectPhone({ project }: ProjectPhoneProps) {
         {/* Persistent gradient for readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
 
-        {/* Extra dark on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        {/* Extra dark on active */}
+        <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-300 ${active ? 'opacity-100' : 'opacity-0'}`} />
         
-        {/* Project info - hidden by default, shown on hover */}
-        <div className="absolute inset-x-0 bottom-0 p-3 flex flex-col justify-end h-[60%] opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-2 group-hover:translate-y-0">
+        {/* Project info - hidden by default, shown on hover/tap */}
+        <div className={`absolute inset-x-0 bottom-0 p-3 flex flex-col justify-end h-[60%] transition-all duration-300 ${active ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
           <div className="text-[8px] text-white/60 mb-1 font-mono truncate">
             drwxr-xr-x  hollali  hollali  <span className="text-white/90">{project.title.toLowerCase().replace(/\s+/g, '-')}</span>
           </div>
@@ -76,6 +83,7 @@ export default function ProjectPhone({ project }: ProjectPhoneProps) {
               rel="noopener noreferrer"
               className="text-[#00bfff] hover:text-[var(--terminal-accent)] flex items-center gap-0.5"
               aria-label={`${project.title} source code on GitHub`}
+              onClick={(e) => e.stopPropagation()}
             >
               <FaGithub className="w-2 h-2" /> ./code
             </a>
@@ -85,6 +93,7 @@ export default function ProjectPhone({ project }: ProjectPhoneProps) {
               rel="noopener noreferrer"
               className="text-[#00bfff] hover:text-[var(--terminal-accent)] flex items-center gap-0.5"
               aria-label={`${project.title} live demo`}
+              onClick={(e) => e.stopPropagation()}
             >
               <FaExternalLinkAlt className="w-2 h-2" /> ./demo
             </a>

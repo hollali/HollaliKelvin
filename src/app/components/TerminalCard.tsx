@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import { techColors } from '@/lib/constants'
@@ -11,10 +12,16 @@ interface TerminalCardProps {
 }
 
 export default function TerminalCard({ project }: TerminalCardProps) {
+  const [active, setActive] = useState(false)
   const allImages = [project.image, ...(project.images || [])].filter(Boolean)
 
   return (
-    <div className="project-card relative overflow-hidden group">
+    <div
+      className="project-card relative overflow-hidden group"
+      onClick={() => setActive((prev) => !prev)}
+      onMouseEnter={() => setActive(true)}
+      onMouseLeave={() => setActive(false)}
+    >
       {/* Full-bleed image or carousel */}
       <div className="absolute inset-0">
         {allImages.length > 1 ? (
@@ -33,11 +40,11 @@ export default function TerminalCard({ project }: TerminalCardProps) {
       {/* Persistent gradient for readability */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
 
-      {/* Extra dark on hover */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      {/* Extra dark on active */}
+      <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-300 ${active ? 'opacity-100' : 'opacity-0'}`} />
 
-      {/* Project info - hidden by default, shown on hover */}
-      <div className="absolute inset-x-0 bottom-0 p-4 flex flex-col justify-end h-[70%] opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-2 group-hover:translate-y-0">
+      {/* Project info - hidden by default, shown on hover/tap */}
+      <div className={`absolute inset-x-0 bottom-0 p-4 flex flex-col justify-end h-[70%] transition-all duration-300 ${active ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
         <div className="text-[10px] text-white/60 mb-1 font-mono truncate">
           drwxr-xr-x  hollali  hollali  <span className="text-white/90">{project.title.toLowerCase().replace(/\s+/g, '-')}</span>
         </div>
@@ -68,6 +75,7 @@ export default function TerminalCard({ project }: TerminalCardProps) {
             rel="noopener noreferrer"
             className="text-[#00bfff] hover:text-[var(--terminal-accent)] flex items-center gap-1"
             aria-label={`${project.title} source code on GitHub`}
+            onClick={(e) => e.stopPropagation()}
           >
             <FaGithub className="h-3 w-3" /> ./code
           </a>
@@ -77,6 +85,7 @@ export default function TerminalCard({ project }: TerminalCardProps) {
             rel="noopener noreferrer"
             className="text-[#00bfff] hover:text-[var(--terminal-accent)] flex items-center gap-1"
             aria-label={`${project.title} live demo`}
+            onClick={(e) => e.stopPropagation()}
           >
             <FaExternalLinkAlt className="h-3 w-3" /> ./demo
           </a>
