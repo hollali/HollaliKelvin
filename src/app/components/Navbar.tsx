@@ -11,7 +11,6 @@ const menuItems = [
   { href: "/blogs", label: "blogs" },
   { href: "/resume", label: "resume" },
   { href: "/contact", label: "contact" },
-  { href: "/terminal", label: "terminal" },
 ];
 
 const modeDots: Record<TerminalMode, string> = {

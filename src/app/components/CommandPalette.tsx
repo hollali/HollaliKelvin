@@ -11,7 +11,6 @@ const pages = [
   { path: '/blogs', label: 'Blogs', cmd: 'ls -la blogs/', type: 'page' as const },
   { path: '/contact', label: 'Contact', cmd: './contact', type: 'page' as const },
   { path: '/resume', label: 'Resume', cmd: 'cat resume.md', type: 'page' as const },
-  { path: '/terminal', label: 'Terminal', cmd: './terminal', type: 'page' as const },
 ]
 
 interface ContentItem {
