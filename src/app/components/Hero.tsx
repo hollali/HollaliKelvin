@@ -112,14 +112,14 @@ export default function Hero() {
       <div aria-hidden className="absolute inset-0">
         <div className="absolute inset-0 hero-grid" />
         <div
-          className="absolute -top-32 left-1/4 h-[420px] w-[420px] rounded-full blur-[140px]"
+          className="absolute -top-32 left-1/4 h-[420px] w-[420px] rounded-full blur-[72px]"
           style={{
             background:
               "color-mix(in srgb, var(--terminal-accent) 12%, transparent)",
           }}
         />
         <div
-          className="absolute top-1/3 -right-24 h-[360px] w-[360px] rounded-full blur-[140px]"
+          className="absolute top-1/3 -right-24 h-[360px] w-[360px] rounded-full blur-[72px]"
           style={{
             background:
               "color-mix(in srgb, var(--terminal-accent) 8%, transparent)",

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import { techColors } from '@/lib/constants'
+import { sanityImageUrl } from '@/lib/image'
 import type { Project } from '@/types'
 import ImageCarousel from './ImageCarousel'
 
@@ -33,9 +34,10 @@ export default function ProjectPhone({ project }: ProjectPhoneProps) {
             <ImageCarousel images={allImages} alt={project.title} />
           ) : (
             <Image
-              src={project.image}
+              src={sanityImageUrl(project.image, 520)}
               alt={project.title}
               fill
+              unoptimized
               className="object-cover"
               sizes="(max-width: 768px) 200px, 260px"
             />

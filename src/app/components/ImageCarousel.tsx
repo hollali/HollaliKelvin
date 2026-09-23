@@ -2,19 +2,24 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
+import { sanityImageUrl } from '@/lib/image'
 
 interface ImageCarouselProps {
   images: string[]
   alt: string
   className?: string
   autoPlayInterval?: number
+  width?: number
+  sizes?: string
 }
 
-export default function ImageCarousel({ 
-  images, 
-  alt, 
+export default function ImageCarousel({
+  images,
+  alt,
   className = '',
-  autoPlayInterval = 3000 
+  autoPlayInterval = 3000,
+  width = 520,
+  sizes = '(max-width: 768px) 200px, 260px',
 }: ImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
@@ -34,11 +39,12 @@ export default function ImageCarousel({
     return (
       <div className={`relative w-full h-full ${className}`}>
         <Image
-          src={images[0]}
+          src={sanityImageUrl(images[0], width)}
           alt={alt}
           fill
+          unoptimized
           className="object-cover"
-          sizes="(max-width: 768px) 200px, 260px"
+          sizes={sizes}
         />
       </div>
     )
@@ -58,11 +64,12 @@ export default function ImageCarousel({
         {images.map((src, index) => (
           <div key={index} className="relative w-full h-full flex-shrink-0">
             <Image
-              src={src}
+              src={sanityImageUrl(src, width)}
               alt={`${alt} - Image ${index + 1}`}
               fill
+              unoptimized
               className="object-cover"
-              sizes="(max-width: 768px) 200px, 260px"
+              sizes={sizes}
             />
           </div>
         ))}

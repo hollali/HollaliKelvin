@@ -109,7 +109,7 @@ const components = {
   },
   types: {
     image: ({ value }: { value: { alt?: string } }) => {
-      const src = urlFor(value).width(800).url()
+      const src = urlFor(value).width(800).quality(70).auto('format').url()
       return (
         <div className="relative my-4 border border-[#2a2a2a] overflow-hidden" style={{ aspectRatio: '16/9' }}>
           <Image src={src} alt={value?.alt || ''} fill className="object-cover" sizes="(max-width: 768px) 100vw, 800px" unoptimized />

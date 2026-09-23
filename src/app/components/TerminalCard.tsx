@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import { techColors } from '@/lib/constants'
+import { sanityImageUrl } from '@/lib/image'
 import type { Project } from '@/types'
 import ImageCarousel from './ImageCarousel'
 
@@ -25,12 +26,18 @@ export default function TerminalCard({ project }: TerminalCardProps) {
       {/* Full-bleed image or carousel */}
       <div className="absolute inset-0">
         {allImages.length > 1 ? (
-          <ImageCarousel images={allImages} alt={project.title} />
+          <ImageCarousel
+            images={allImages}
+            alt={project.title}
+            width={1200}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
         ) : (
           <Image
-            src={project.image}
+            src={sanityImageUrl(project.image, 1200)}
             alt={project.title}
             fill
+            unoptimized
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />

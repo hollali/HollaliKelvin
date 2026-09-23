@@ -301,6 +301,13 @@ html {
   }
 }
 
+@media (max-width: 767px) {
+  .scanline-overlay,
+  .crt-overlay {
+    display: none;
+  }
+}
+
 @media print {
   :root {
     --terminal-accent: #111;
