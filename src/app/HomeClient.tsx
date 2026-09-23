@@ -1,18 +1,20 @@
-'use client'
+import Hero from './components/Hero'
+import Projects from './components/Projects'
+import Blogs from './components/Blogs'
+import Newsletter from './components/Newsletter'
+import type { Project, Blog } from '@/types'
 
-import dynamic from 'next/dynamic'
+interface HomeClientProps {
+  projects: Project[]
+  blogs: Blog[]
+}
 
-const Hero = dynamic(() => import('./components/Hero'), { ssr: false })
-const Projects = dynamic(() => import('./components/Projects'), { ssr: false })
-const Blogs = dynamic(() => import('./components/Blogs'), { ssr: false })
-const Newsletter = dynamic(() => import('./components/Newsletter'), { ssr: false })
-
-export default function HomeClient() {
+export default function HomeClient({ projects, blogs }: HomeClientProps) {
   return (
     <main>
       <Hero />
-      <Projects />
-      <Blogs />
+      <Projects initial={projects} />
+      <Blogs initial={blogs} />
       <Newsletter />
     </main>
   )

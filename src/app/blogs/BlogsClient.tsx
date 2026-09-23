@@ -15,9 +15,9 @@ function formatDate(date: string) {
   return new Date(date).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
 }
 
-export default function BlogsClient() {
-  const [blogs, setBlogs] = useState<Blog[]>([])
-  const [loading, setLoading] = useState(true)
+export default function BlogsClient({ initial }: { initial?: Blog[] }) {
+  const [blogs, setBlogs] = useState<Blog[]>(initial ?? [])
+  const [loading, setLoading] = useState(initial === undefined)
   const [activeTag, setActiveTag] = useState<string | null>(null)
   const [page, setPage] = useState(0)
 
@@ -40,13 +40,14 @@ export default function BlogsClient() {
   const hasMore = paged.length < filtered.length
 
   useEffect(() => {
+    if (initial !== undefined) return
     getBlogs()
       .then((data) => {
         setBlogs(data)
         setLoading(false)
       })
       .catch(() => setLoading(false))
-  }, [])
+  }, [initial])
 
   const [featured, ...rest] = paged
 

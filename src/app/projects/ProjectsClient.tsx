@@ -17,22 +17,23 @@ function slugify(title: string) {
   return title.toLowerCase().replace(/\s+/g, '-')
 }
 
-export default function ProjectsClient() {
-  const [projects, setProjects] = useState<Project[]>([])
-  const [loading, setLoading] = useState(true)
+export default function ProjectsClient({ initial }: { initial?: Project[] }) {
+  const [projects, setProjects] = useState<Project[]>(initial ?? [])
+  const [loading, setLoading] = useState(initial === undefined)
   const [filter, setFilter] = useState<string | null>(null)
   const [query, setQuery] = useState('')
   const [view, setView] = useState<'grid' | 'list'>('grid')
   const [page, setPage] = useState(0)
 
   useEffect(() => {
+    if (initial !== undefined) return
     getProjects()
       .then((data) => {
         setProjects(data)
         setLoading(false)
       })
       .catch(() => setLoading(false))
-  }, [])
+  }, [initial])
 
   const allTags = useMemo(() => {
     const tags = new Set<string>()

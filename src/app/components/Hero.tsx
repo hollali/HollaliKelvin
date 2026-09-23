@@ -39,13 +39,13 @@ const socials = [
 ];
 
 const bootLines: { text: string; delay: number }[] = [
-  { text: "Initializing kernel...", delay: 220 },
-  { text: "Enumerating filesystems... [OK]", delay: 260 },
-  { text: "Loading system modules...  [OK]", delay: 280 },
-  { text: "Mounting root partition...  [OK]", delay: 300 },
-  { text: "Enabling network interfaces. [OK]", delay: 320 },
-  { text: "Starting display server...  [OK]", delay: 340 },
-  { text: "Launching shell...          [OK]", delay: 360 },
+  { text: "Initializing kernel...", delay: 60 },
+  { text: "Enumerating filesystems... [OK]", delay: 70 },
+  { text: "Loading system modules...  [OK]", delay: 75 },
+  { text: "Mounting root partition...  [OK]", delay: 80 },
+  { text: "Enabling network interfaces. [OK]", delay: 85 },
+  { text: "Starting display server...  [OK]", delay: 90 },
+  { text: "Launching shell...          [OK]", delay: 95 },
 ];
 
 function useTypewriter(
@@ -95,7 +95,7 @@ export default function Hero() {
       return;
     }
     if (visibleBootLines >= bootLines.length) {
-      const t = setTimeout(() => setBootComplete(true), 500);
+      const t = setTimeout(() => setBootComplete(true), 180);
       return () => clearTimeout(t);
     }
     const t = setTimeout(

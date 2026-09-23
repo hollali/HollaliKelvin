@@ -16,7 +16,9 @@ export async function GET(request: NextRequest) {
       "slug": slug.current,
       content
     }`, { slug })
-    return NextResponse.json(blog)
+    return NextResponse.json(blog, {
+      headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' },
+    })
   }
 
   const params: Record<string, string> = {}
@@ -28,5 +30,7 @@ export async function GET(request: NextRequest) {
     query = `*[_type == "blog"] | order(date desc) { title, excerpt, date, readTime, tags, "slug": slug.current }`
   }
   const blogs = await client.fetch(query, params)
-  return NextResponse.json(blogs)
+  return NextResponse.json(blogs, {
+    headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' },
+  })
 }

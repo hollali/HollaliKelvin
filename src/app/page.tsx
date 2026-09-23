@@ -1,5 +1,8 @@
 import HomeClient from './HomeClient'
 import type { Metadata } from "next";
+import { fetchBlogs, fetchProjects } from '@/sanity/data'
+
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: "hollali@portfolio:~$",
@@ -10,6 +13,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
-  return <HomeClient />
+export default async function Home() {
+  const [projects, blogs] = await Promise.all([
+    fetchProjects(true),
+    fetchBlogs(),
+  ])
+  return <HomeClient projects={projects} blogs={blogs} />
 }

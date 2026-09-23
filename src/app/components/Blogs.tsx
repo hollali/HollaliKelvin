@@ -8,16 +8,17 @@ import { FaCalendarAlt, FaClock } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import SectionHeading from './SectionHeading'
 
-export default function Blogs() {
-  const [blogs, setBlogs] = useState<Blog[]>([])
-  const [loading, setLoading] = useState(true)
+export default function Blogs({ initial }: { initial?: Blog[] }) {
+  const [blogs, setBlogs] = useState<Blog[]>(initial ?? [])
+  const [loading, setLoading] = useState(initial === undefined)
 
   useEffect(() => {
+    if (initial !== undefined) return
     getBlogs().then((data) => {
       setBlogs(data)
       setLoading(false)
     })
-  }, [])
+  }, [initial])
 
   if (loading) {
     return (

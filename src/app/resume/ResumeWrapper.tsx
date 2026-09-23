@@ -1,8 +1,4 @@
-'use client'
-
-import dynamic from 'next/dynamic'
-
-const ResumeClient = dynamic(() => import('./ResumeClient'), { ssr: false })
+import ResumeClient from './ResumeClient'
 
 export default function ResumeWrapper() {
   return <ResumeClient />

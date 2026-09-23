@@ -1,8 +1,4 @@
-'use client'
-
-import dynamic from 'next/dynamic'
-
-const AboutClient = dynamic(() => import('./AboutClient'), { ssr: false })
+import AboutClient from './AboutClient'
 
 export default function AboutWrapper() {
   return <AboutClient />

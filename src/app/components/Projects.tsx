@@ -10,18 +10,19 @@ import TerminalCard from './TerminalCard'
 import ProjectPhone from './ProjectPhone'
 import SectionHeading from './SectionHeading'
 
-export default function Projects() {
-  const [projects, setProjects] = useState<Project[]>([])
-  const [loading, setLoading] = useState(true)
+export default function Projects({ initial }: { initial?: Project[] }) {
+  const [projects, setProjects] = useState<Project[]>(initial ?? [])
+  const [loading, setLoading] = useState(initial === undefined)
 
   useEffect(() => {
+    if (initial !== undefined) return
     getProjects({ featured: true })
       .then((data) => {
         setProjects(data)
         setLoading(false)
       })
       .catch(() => setLoading(false))
-  }, [])
+  }, [initial])
 
   if (loading) {
     return (

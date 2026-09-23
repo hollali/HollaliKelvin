@@ -18,5 +18,7 @@ export async function GET(request: NextRequest) {
     "image": image.asset->url,
     "images": images[].asset->url
   }`)
-  return NextResponse.json(projects)
+  return NextResponse.json(projects, {
+    headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' },
+  })
 }
