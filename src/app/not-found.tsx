@@ -1,37 +1,64 @@
-import Link from 'next/link'
+import Link from "next/link";
+import { FaArrowLeft, FaHome } from "react-icons/fa";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="terminal-card max-w-lg w-full text-center">
-        <div className="text-xs text-[#ff4444] mb-4 font-mono">
-          <span className="text-[#ff4444]">✗</span> command not found
-        </div>
-        <h1 className="text-2xl font-mono text-[#e0e0e0] mb-2">404</h1>
-        <p className="text-xs text-[#666] mb-6 font-mono">
-          The page you&apos;re looking for does not exist.
-          <br />
-          <span className="text-[#555]">Maybe you mistyped the path?</span>
-        </p>
-        <div className="text-xs text-[#666] mb-6 font-mono">
-          <span style={{ color: 'var(--terminal-accent)' }}>$</span> ls -la /pages/
-          <br />
-          <span className="text-[#555]">drwxr-xr-x  hollali  hollali  home</span>
-          <br />
-          <span className="text-[#555]">drwxr-xr-x  hollali  hollali  about</span>
-          <br />
-          <span className="text-[#555]">drwxr-xr-x  hollali  hollali  projects</span>
-          <br />
-          <span className="text-[#555]">drwxr-xr-x  hollali  hollali  blogs</span>
-          <br />
-          <span className="text-[#555]">drwxr-xr-x  hollali  hollali  contact</span>
-          <br />
-          <span style={{ color: 'var(--terminal-accent)' }}>$</span> cd <span className="animate-pulse">_</span>
-        </div>
-        <Link href="/" className="terminal-btn text-xs">
-          $ cd /
-        </Link>
+    <section className="relative overflow-hidden min-h-[70vh] flex items-center justify-center py-16 md:py-24">
+      <div aria-hidden className="absolute inset-0">
+        <div className="absolute inset-0 hero-grid opacity-60" />
       </div>
-    </div>
-  )
+
+      <div className="relative z-10 w-full max-w-xl mx-auto px-4">
+        <div className="terminal-card p-0 overflow-hidden">
+          <div className="terminal-titlebar">
+            <div className="flex gap-1.5">
+              <div className="terminal-dot terminal-dot-red" />
+              <div className="terminal-dot terminal-dot-yellow" />
+              <div className="terminal-dot terminal-dot-green" />
+            </div>
+            <span className="text-xs text-[#666] ml-2">~/404</span>
+            <span className="ml-auto text-xs text-[#555]">bash</span>
+          </div>
+
+          <div className="p-6 md:p-8">
+            <p className="text-xs mb-4 font-mono" style={{ color: "var(--terminal-accent)" }}>
+              hollali@portfolio ~ % cat 404.md
+            </p>
+
+            <div
+              className="text-6xl md:text-7xl font-bold font-mono mb-4"
+              style={{ color: "#ff4444", textShadow: "0 0 24px rgba(255, 68, 68, 0.35)" }}
+            >
+              404
+            </div>
+
+            <h1 className="text-base md:text-lg font-mono text-[#e0e0e0] mb-3">
+              error: page not found
+            </h1>
+
+            <p className="text-xs md:text-sm text-[#999] leading-relaxed mb-8">
+              The page you&apos;re looking for doesn&apos;t exist, was moved, or was
+              never compiled. Try navigating back to a known directory.
+            </p>
+
+            <p className="text-xs font-mono mb-8" style={{ color: "var(--terminal-accent)" }}>
+              $ find / --name &quot;{`the requested page`}&quot; <span className="cursor-blink">▍</span>
+            </p>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <Link href="/" className="terminal-btn terminal-btn-accent text-xs px-3 py-1.5 cursor-pointer">
+                <FaHome className="h-3 w-3 mr-1.5" aria-hidden="true" /> ./go_home
+              </Link>
+              <Link href="/projects" className="terminal-btn text-xs px-3 py-1.5 cursor-pointer">
+                <FaArrowLeft className="h-3 w-3 mr-1.5" aria-hidden="true" /> $ cd ../projects
+              </Link>
+              <Link href="/contact" className="terminal-btn text-xs px-3 py-1.5 cursor-pointer">
+                $ ./report_issue
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

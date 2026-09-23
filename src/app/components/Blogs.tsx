@@ -6,6 +6,7 @@ import type { Blog } from '@/types'
 import Link from 'next/link'
 import { FaCalendarAlt, FaClock } from 'react-icons/fa'
 import { motion } from 'framer-motion'
+import SectionHeading from './SectionHeading'
 
 export default function Blogs() {
   const [blogs, setBlogs] = useState<Blog[]>([])
@@ -41,15 +42,16 @@ export default function Blogs() {
   return (
     <section className="py-12">
       <div className="max-w-6xl mx-auto px-4">
-        <motion.div
-          className="text-xs text-[#666] mb-6"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ ls -la blogs/
-          <hr className="terminal-separator my-2" />
-        </motion.div>
+        <SectionHeading
+          prompt="~ $ ls -la blogs/"
+          title="Latest Writing"
+          description="Notes, tutorials, and deep dives on software engineering and the web."
+          action={
+            <Link href="/blogs" className="terminal-btn text-xs cursor-pointer">
+              view_all -&gt;
+            </Link>
+          }
+        />
 
         <div className="space-y-3">
           {blogs.map((blog, idx) => (

@@ -32,6 +32,14 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+html {
+  scroll-behavior: smooth;
+}
+
+[id] {
+  scroll-margin-top: 88px;
+}
+
 *, *::before, *::after {
   border-color: var(--color-terminal-border);
 }
@@ -118,6 +126,16 @@
   animation: terminalGlow 3s ease-in-out infinite;
 }
 
+.hero-grid {
+  background-image:
+    linear-gradient(var(--color-terminal-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-terminal-border) 1px, transparent 1px);
+  background-size: 44px 44px;
+  opacity: 0.5;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 30%, transparent 100%);
+}
+
 @layer components {
   .terminal-window {
     border: 1px solid var(--color-terminal-border);
@@ -186,6 +204,17 @@
   .terminal-btn:hover {
     border-color: var(--terminal-accent);
     color: var(--terminal-accent);
+  }
+
+  .terminal-btn-accent {
+    background: var(--terminal-accent);
+    border: 1px solid var(--terminal-accent);
+    color: var(--color-terminal-bg);
+  }
+
+  .terminal-btn-accent:hover {
+    filter: brightness(1.12);
+    box-shadow: 0 0 20px color-mix(in srgb, var(--terminal-accent) 40%, transparent);
   }
 
   .terminal-card {
@@ -261,10 +290,64 @@
     animation: none !important;
   }
 
+  html {
+    scroll-behavior: auto;
+  }
+
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  :root {
+    --terminal-accent: #111;
+    --color-terminal-bg: #fff;
+    --color-terminal-surface: #fff;
+    --color-terminal-border: #bbb;
+  }
+
+  body {
+    background: #fff !important;
+    color: #111;
+  }
+
+  header,
+  footer,
+  nav,
+  .no-print,
+  .hero-grid,
+  [aria-hidden="true"] {
+    display: none !important;
+  }
+
+  main {
+    padding: 0;
+  }
+
+  .terminal-card,
+  .project-card,
+  .terminal-btn {
+    background: #fff !important;
+    box-shadow: none !important;
+    border-color: #bbb;
+    color: #111;
+  }
+
+  .terminal-btn,
+  a {
+    color: #111;
+    text-decoration: none;
+  }
+
+  main * {
+    color: #111 !important;
+  }
+
+  .sticky {
+    position: static !important;
   }
 }
 

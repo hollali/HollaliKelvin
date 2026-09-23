@@ -16,6 +16,15 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
+export const revalidate = 3600
+
+export async function generateStaticParams() {
+  const slugs = await client.fetch<{ slug: string }[]>(
+    `*[_type == "blog" && defined(slug.current)] { "slug": slug.current }`
+  )
+  return slugs.map(({ slug }) => ({ slug }))
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const blog = await client.fetch(
@@ -56,44 +65,44 @@ function extractHeadingText(children: ReactNode): string {
 
 const components = {
   block: {
-    normal: ({ children }: { children?: ReactNode }) => <p className="text-xs text-[#e0e0e0] leading-relaxed mb-4">{children}</p>,
+    normal: ({ children }: { children?: ReactNode }) => <p className="text-sm md:text-base text-[#d0d0d0] leading-[1.85] mb-5">{children}</p>,
     h1: ({ children }: { children?: ReactNode }) => {
       const id = headingId(extractHeadingText(children))
-      return <h1 id={id} className="text-lg font-mono text-[#e0e0e0] mt-6 mb-3" style={{ color: 'var(--terminal-accent)' }}>{children}</h1>
+      return <h1 id={id} className="text-lg md:text-xl font-mono text-[#e0e0e0] mt-7 mb-3" style={{ color: 'var(--terminal-accent)' }}>{children}</h1>
     },
     h2: ({ children }: { children?: ReactNode }) => {
       const id = headingId(extractHeadingText(children))
-      return <h2 id={id} className="text-base font-mono text-[#e0e0e0] mt-5 mb-2" style={{ color: 'var(--terminal-accent)' }}>{children}</h2>
+      return <h2 id={id} className="text-base md:text-lg font-mono text-[#e0e0e0] mt-6 mb-2.5" style={{ color: 'var(--terminal-accent)' }}>{children}</h2>
     },
     h3: ({ children }: { children?: ReactNode }) => {
       const id = headingId(extractHeadingText(children))
-      return <h3 id={id} className="text-sm font-mono text-[#e0e0e0] mt-4 mb-2" style={{ color: 'var(--terminal-accent)' }}>{children}</h3>
+      return <h3 id={id} className="text-sm md:text-base font-mono text-[#e0e0e0] mt-5 mb-2" style={{ color: 'var(--terminal-accent)' }}>{children}</h3>
     },
     blockquote: ({ children }: { children?: ReactNode }) => (
-      <blockquote className="border-l-2 px-4 py-2 my-4 text-xs text-[#666] italic" style={{ borderColor: 'var(--terminal-accent)' }}>
+      <blockquote className="border-l-2 px-4 py-2 my-5 text-sm text-[#999] italic" style={{ borderColor: 'var(--terminal-accent)' }}>
         {children}
       </blockquote>
     ),
     code: ({ children }: { children?: ReactNode }) => (
-      <code className="text-xs bg-[#1a1a1a] px-1.5 py-0.5" style={{ color: 'var(--terminal-accent)' }}>
+      <code className="text-[0.85em] bg-[#151515] px-1.5 py-0.5 border border-[#2a2a2a]" style={{ color: 'var(--terminal-accent)' }}>
         {children}
       </code>
     ),
   },
   list: {
-    bullet: ({ children }: { children?: ReactNode }) => <ul className="list-disc list-inside space-y-1 text-xs text-[#e0e0e0] mb-4">{children}</ul>,
-    number: ({ children }: { children?: ReactNode }) => <ol className="list-decimal list-inside space-y-1 text-xs text-[#e0e0e0] mb-4">{children}</ol>,
+    bullet: ({ children }: { children?: ReactNode }) => <ul className="list-disc list-inside space-y-1.5 text-sm md:text-base text-[#d0d0d0] mb-5">{children}</ul>,
+    number: ({ children }: { children?: ReactNode }) => <ol className="list-decimal list-inside space-y-1.5 text-sm md:text-base text-[#d0d0d0] mb-5">{children}</ol>,
   },
   listItem: {
-    bullet: ({ children }: { children?: ReactNode }) => <li className="text-xs text-[#e0e0e0]">{children}</li>,
-    number: ({ children }: { children?: ReactNode }) => <li className="text-xs text-[#e0e0e0]">{children}</li>,
+    bullet: ({ children }: { children?: ReactNode }) => <li className="text-sm md:text-base text-[#d0d0d0]">{children}</li>,
+    number: ({ children }: { children?: ReactNode }) => <li className="text-sm md:text-base text-[#d0d0d0]">{children}</li>,
   },
   marks: {
     link: ({ children, value }: { children?: ReactNode; value?: { href?: string } }) => (
-      <a href={value?.href} target="_blank" rel="noopener noreferrer" className="terminal-link text-xs">{children}</a>
+      <a href={value?.href} target="_blank" rel="noopener noreferrer" className="terminal-link text-sm md:text-base">{children}</a>
     ),
     code: ({ children }: { children?: ReactNode }) => (
-      <code className="text-xs bg-[#1a1a1a] px-1.5 py-0.5" style={{ color: 'var(--terminal-accent)' }}>{children}</code>
+      <code className="text-[0.85em] bg-[#151515] px-1.5 py-0.5 border border-[#2a2a2a]" style={{ color: 'var(--terminal-accent)' }}>{children}</code>
     ),
     strong: ({ children }: { children?: ReactNode }) => <strong className="text-[#e0e0e0] font-bold">{children}</strong>,
     em: ({ children }: { children?: ReactNode }) => <em className="italic">{children}</em>,
@@ -161,15 +170,29 @@ export default async function BlogPost({ params }: Props) {
                 <span style={{ color: 'var(--terminal-accent)' }}>~</span> $ cat blogs/{blog.slug}.md
               </div>
 
-              <h1 className="text-xl md:text-2xl font-mono text-[#e0e0e0] mb-3">{blog.title}</h1>
+              <h1 className="text-xl md:text-2xl font-mono text-[#e0e0e0] mb-4">{blog.title}</h1>
 
-              <div className="flex items-center gap-4 text-[10px] text-[#555] mb-4 pb-4 border-b border-[#2a2a2a]">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] text-[#666] mb-5 pb-4 border-b border-[#2a2a2a]">
+                <span className="flex items-center gap-2">
+                  <Image
+                    src="/hollali.jpeg"
+                    alt="Hollali Kelvin"
+                    width={24}
+                    height={24}
+                    className="rounded-full border border-[#2a2a2a]"
+                  />
+                  <span>
+                    written by{" "}
+                    <span style={{ color: "var(--terminal-accent)" }}>hollali</span>
+                  </span>
+                </span>
+                <span className="hidden sm:block h-3 w-px bg-[#2a2a2a]" aria-hidden="true" />
                 <span className="flex items-center gap-1">
-                  <FaCalendarAlt className="h-3 w-3" />
+                  <FaCalendarAlt className="h-3 w-3" aria-hidden="true" />
                   {new Date(blog.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </span>
                 <span className="flex items-center gap-1">
-                  <FaClock className="h-3 w-3" />
+                  <FaClock className="h-3 w-3" aria-hidden="true" />
                   {blog.readTime} min read
                 </span>
               </div>

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
@@ -8,6 +9,15 @@ const iconLinks = [
   { href: "https://github.com/hollali", icon: FaGithub, label: "GitHub" },
   { href: "https://twitter.com/h_ollali", icon: FaTwitter, label: "Twitter" },
   { href: "https://www.linkedin.com/in/hollali-kelvin-18600b225/", icon: FaLinkedin, label: "LinkedIn" },
+]
+
+const navLinks = [
+  { href: "/", label: "home" },
+  { href: "/about", label: "about" },
+  { href: "/projects", label: "projects" },
+  { href: "/blogs", label: "blogs" },
+  { href: "/resume", label: "resume" },
+  { href: "/contact", label: "contact" },
 ]
 
 export default function Footer() {
@@ -32,51 +42,71 @@ export default function Footer() {
       transition={{ duration: 0.5 }}
     >
       {/* Main footer row */}
-      <div className="max-w-6xl mx-auto px-4 py-3">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-3 text-xs">
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="grid gap-8 sm:grid-cols-3 text-xs">
           <motion.div
-            className="text-[#666]"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.1 }}
           >
-            <span className="text-[#555]">~</span> $
-            <span className="text-[#e0e0e0]"> Hollali </span>
-            <span className="text-[#555]">
-              &copy; {new Date().getFullYear()}
-            </span>
+            <div className="text-[11px] font-mono" style={{ color: 'var(--terminal-accent)' }}>hollali@portfolio</div>
+            <p className="text-[#666] mt-2 leading-relaxed max-w-xs">
+              Software engineer building performant web & mobile experiences from Accra, Ghana.
+            </p>
           </motion.div>
-          <motion.div
-            className="flex space-x-4"
+
+          <motion.nav
+            aria-label="Footer navigation"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.2 }}
           >
-            {iconLinks.map((link) => (
-              <motion.a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: "#666" }}
-                whileHover={{ color: "var(--terminal-accent)", scale: 1.2 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                aria-label={link.label}
-              >
-                <link.icon className="h-4 w-4" />
-              </motion.a>
-            ))}
-          </motion.div>
+            <div className="text-[11px] uppercase tracking-wider text-[#666] mb-2">navigate</div>
+            <ul className="space-y-1 font-mono">
+              {navLinks.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-[#666] hover:text-[var(--terminal-accent)] transition-colors"
+                    style={pathname === item.href ? { color: 'var(--terminal-accent)' } : undefined}
+                  >
+                    ./{item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.nav>
+
           <motion.div
-            className="text-[#555]"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.3 }}
           >
-            exit code: <span style={{ color: 'var(--terminal-accent)' }}>0</span>
+            <div className="text-[11px] uppercase tracking-wider text-[#666] mb-2">connect</div>
+            <div className="flex gap-2 mb-4">
+              {iconLinks.map((link) => (
+                <motion.a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="terminal-btn text-[10px] px-2.5 py-1.5"
+                  style={{ color: "#666" }}
+                  whileHover={{ color: "var(--terminal-accent)", scale: 1.08 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  aria-label={link.label}
+                >
+                  <link.icon className="h-3 w-3" />
+                </motion.a>
+              ))}
+            </div>
+            <div className="text-[#555] font-mono">
+              <span className="text-[#666]">&copy; {new Date().getFullYear()}</span> Hollali Kelvin
+              <span className="ml-3">exit code: <span style={{ color: 'var(--terminal-accent)' }}>0</span></span>
+            </div>
           </motion.div>
         </div>
       </div>

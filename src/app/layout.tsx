@@ -14,6 +14,41 @@ const geistMono = Geist_Mono({
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://hollali-portfolio.netlify.app";
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${baseUrl}/#person`,
+      name: "Hollali Kelvin",
+      url: baseUrl,
+      image: `${baseUrl}/hollali.jpeg`,
+      jobTitle: "Software Engineer",
+      description: "Software engineer from Accra, Ghana building web applications, mobile interfaces, and cloud services.",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Accra",
+        addressCountry: "GH",
+      },
+      email: "mailto:dheztinykartel@gmail.com",
+      telephone: "+233050306932",
+      knowsAbout: ["React", "Next.js", "Node.js", "TypeScript", "React Native", "PostgreSQL"],
+      sameAs: [
+        "https://github.com/hollali",
+        "https://www.linkedin.com/in/hollali-kelvin-18600b225/",
+        "https://twitter.com/h_ollali",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${baseUrl}/#website`,
+      url: baseUrl,
+      name: "Hollali Kelvin — Software Engineer Portfolio",
+      description: "Terminal-themed developer portfolio of Hollali Kelvin.",
+    },
+  ],
+};
+
 export const metadata: Metadata = {
   title: "hollali@portfolio:~$",
   description: "Hollali's portfolio - a terminal-themed developer portfolio",
@@ -50,6 +85,10 @@ export default function RootLayout({
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[10000] focus:top-2 focus:left-2 focus:terminal-btn focus:text-xs">
           Skip to content
         </a>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <div className="scanline-overlay" />
         <div className="crt-overlay" />
         <ThemeProvider>
