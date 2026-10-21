@@ -126,16 +126,6 @@ html {
   animation: terminalGlow 3s ease-in-out infinite;
 }
 
-.hero-grid {
-  background-image:
-    linear-gradient(var(--color-terminal-border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--color-terminal-border) 1px, transparent 1px);
-  background-size: 44px 44px;
-  opacity: 0.5;
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 30%, transparent 100%);
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 30%, transparent 100%);
-}
-
 @layer components {
   .terminal-window {
     border: 1px solid var(--color-terminal-border);
@@ -325,7 +315,6 @@ html {
   footer,
   nav,
   .no-print,
-  .hero-grid,
   [aria-hidden="true"] {
     display: none !important;
   }

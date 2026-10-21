@@ -4,10 +4,6 @@ import { FaArrowLeft, FaHome } from "react-icons/fa";
 export default function NotFound() {
   return (
     <section className="relative overflow-hidden min-h-[70vh] flex items-center justify-center py-16 md:py-24">
-      <div aria-hidden className="absolute inset-0">
-        <div className="absolute inset-0 hero-grid opacity-60" />
-      </div>
-
       <div className="relative z-10 w-full max-w-xl mx-auto px-4">
         <div className="terminal-card p-0 overflow-hidden">
           <div className="terminal-titlebar">

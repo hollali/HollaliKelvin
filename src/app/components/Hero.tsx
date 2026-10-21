@@ -110,7 +110,6 @@ export default function Hero() {
   return (
     <section className="relative overflow-hidden py-16 md:py-24">
       <div aria-hidden className="absolute inset-0">
-        <div className="absolute inset-0 hero-grid" />
         <div
           className="absolute -top-32 left-1/4 h-[420px] w-[420px] rounded-full blur-[72px]"
           style={{

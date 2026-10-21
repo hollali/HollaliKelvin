@@ -8,7 +8,6 @@ export default function AmbientBackground({ className = "" }: AmbientBackgroundP
       aria-hidden
       className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
     >
-      <div className="absolute inset-0 hero-grid" />
       <div
         className="absolute -top-32 right-1/4 h-[380px] w-[380px] rounded-full blur-[64px]"
         style={{
