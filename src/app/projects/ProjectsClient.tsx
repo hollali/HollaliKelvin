@@ -26,14 +26,13 @@ export default function ProjectsClient({ initial }: { initial?: Project[] }) {
   const [page, setPage] = useState(0)
 
   useEffect(() => {
-    if (initial !== undefined) return
     getProjects()
       .then((data) => {
         setProjects(data)
         setLoading(false)
       })
       .catch(() => setLoading(false))
-  }, [initial])
+  }, [])
 
   const allTags = useMemo(() => {
     const tags = new Set<string>()

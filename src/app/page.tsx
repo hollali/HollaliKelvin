@@ -2,7 +2,7 @@ import HomeClient from './HomeClient'
 import type { Metadata } from "next";
 import { fetchBlogs, fetchProjects } from '@/sanity/data'
 
-export const revalidate = 3600
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: "hollali@portfolio:~$",

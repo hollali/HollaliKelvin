@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       content
     }`, { slug })
     return NextResponse.json(blog, {
-      headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' },
+      headers: { 'Cache-Control': 'no-store' },
     })
   }
 
@@ -31,6 +31,6 @@ export async function GET(request: NextRequest) {
   }
   const blogs = await client.fetch(query, params)
   return NextResponse.json(blogs, {
-    headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' },
+    headers: { 'Cache-Control': 'no-store' },
   })
 }

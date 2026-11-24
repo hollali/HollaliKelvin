@@ -13,12 +13,13 @@ export default function Blogs({ initial }: { initial?: Blog[] }) {
   const [loading, setLoading] = useState(initial === undefined)
 
   useEffect(() => {
-    if (initial !== undefined) return
-    getBlogs().then((data) => {
-      setBlogs(data)
-      setLoading(false)
-    })
-  }, [initial])
+    getBlogs()
+      .then((data) => {
+        setBlogs(data)
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
+  }, [])
 
   if (loading) {
     return (

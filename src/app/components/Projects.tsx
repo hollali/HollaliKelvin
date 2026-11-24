@@ -15,14 +15,13 @@ export default function Projects({ initial }: { initial?: Project[] }) {
   const [loading, setLoading] = useState(initial === undefined)
 
   useEffect(() => {
-    if (initial !== undefined) return
     getProjects({ featured: true })
       .then((data) => {
         setProjects(data)
         setLoading(false)
       })
       .catch(() => setLoading(false))
-  }, [initial])
+  }, [])
 
   if (loading) {
     return (

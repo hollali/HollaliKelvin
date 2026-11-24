@@ -40,14 +40,13 @@ export default function BlogsClient({ initial }: { initial?: Blog[] }) {
   const hasMore = paged.length < filtered.length
 
   useEffect(() => {
-    if (initial !== undefined) return
     getBlogs()
       .then((data) => {
         setBlogs(data)
         setLoading(false)
       })
       .catch(() => setLoading(false))
-  }, [initial])
+  }, [])
 
   const [featured, ...rest] = paged
 

@@ -1,6 +1,6 @@
 import { client } from './client'
 
-export const SANITY_REVALIDATE = 3600
+export const SANITY_REVALIDATE = 60
 
 export async function fetchBlogs(tag?: string) {
   const params: Record<string, string> = tag ? { tag } : {}

@@ -25,6 +25,7 @@ A modern, responsive portfolio website built with Next.js, showcasing projects, 
 - **TypeScript** - Type-safe development experience
 - **Tailwind CSS** - Utility-first CSS framework
 - **Framer Motion** - Smooth, performant animations
+- **Sanity CMS** - Projects and blogs managed in Sanity, with 60-second ISR and webhook-triggered revalidation
 - **SEO Optimized** - Meta tags, structured data, and sitemap generation
 
 ### 🔧 **Developer Experience**
@@ -42,7 +43,7 @@ A modern, responsive portfolio website built with Next.js, showcasing projects, 
 
 Ensure you have the following installed:
 
-- **Node.js** (v16.0 or higher)
+- **Node.js** (v20 or higher)
 - **npm** or **yarn** package manager
 - **Git** for version control
 
@@ -51,7 +52,7 @@ Ensure you have the following installed:
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/hollali/HollalKelvin.git
+   git clone https://github.com/hollali/HollaliKelvin.git
    cd HollaliKelvin
    ```
 
@@ -87,19 +88,18 @@ Ensure you have the following installed:
 ## 📁 Project Structure
 
 ```
-hollali.dev/
-├── components/           # Reusable UI components
-│   ├── ui/              # Base UI components
-│   ├── sections/        # Page sections
-│   └── layout/          # Layout components
-├── pages/               # Next.js pages
+hollalikelvin/
+├── src/
+│   ├── app/             # App Router pages, layouts, and API routes
+│   │   ├── api/         # Contact, newsletter, Sanity data, revalidation
+│   │   └── components/  # Shared UI components
+│   ├── contents/        # Client-side data helpers (call the API routes)
+│   ├── lib/             # Image URL and small helpers
+│   ├── sanity/          # Sanity client, GROQ queries, and schemas
+│   └── types/           # TypeScript type definitions
 ├── public/              # Static assets
-├── styles/              # Global styles and Tailwind config
-├── types/               # TypeScript type definitions
-├── utils/               # Utility functions
-├── content/             # Blog posts and project data
-├── hooks/               # Custom React hooks
-└── lib/                 # External library configurations
+├── sanity.config.ts     # Studio configuration (/studio basePath)
+└── netlify.toml         # Netlify build command and cache headers
 ```
 
 ---
@@ -160,28 +160,42 @@ const fadeInUp = {
 
 ### Customizing Content
 
-1. **Personal Information** - Edit `config/personal.ts`
-2. **Projects** - Add to `content/projects/`
-3. **Blog Posts** - Create MDX files in `content/blog/`
-4. **Skills & Technologies** - Update `data/skills.ts`
+Projects and blog posts are Sanity documents, not local files. Add or edit them in Sanity Studio and publish; the document schemas live in `src/sanity/schemas/`. Published content appears within 60 seconds (or instantly when the webhook below is configured).
+
+Projects are fetched via `fetchProjects()` in `src/sanity/data.ts` and exposed to client components through `/api/sanity/projects`. Blogs use `/api/sanity/blogs`.
+
+### Sanity Webhook (instant updates)
+
+Create a webhook in Sanity (**API → Webhooks**) that fires on create, update, and delete of `project` and `blog` documents:
+
+- **URL**: `https://<your-domain>/api/revalidate`
+- **HTTP headers**: `x-webhook-secret: <SANITY_REVALIDATE_SECRET>`
+
+The endpoint calls `revalidatePath('/', 'layout')`, so the next request serves fresh content. Requests without a matching secret are rejected with `401`.
 
 ### Styling
 
-- **Colors** - Modify `tailwind.config.js` theme
-- **Fonts** - Update font imports in `styles/globals.css`
-- **Components** - Customize in respective component files
+- **Colors** - Tailwind v4 theme variables live in `src/app/globals.css`
+- **Fonts** - Update font imports in `src/app/globals.css`
+- **Components** - Customize in `src/app/components/`
 
 ### SEO & Meta
 
-```ts
-// next-seo.config.js
-export default {
-  title: "Your Name - Portfolio",
-  description: "Your portfolio description",
-  canonical: "https://yourportfolio.dev",
-  // ... more SEO configuration
-};
-```
+Page metadata is defined with Next.js `metadata` exports in `src/app/layout.tsx` and each page. Set `NEXT_PUBLIC_SITE_URL` for canonical URLs, the sitemap, and the RSS feed.
+
+---
+
+## 🔌 API Routes
+
+| Route                    | Purpose                                      |
+| ------------------------ | -------------------------------------------- |
+| `/api/sanity/projects`   | Published Sanity projects (`?featured=true` supported) |
+| `/api/sanity/blogs`      | Published Sanity blogs (`?slug` / `?tag` supported) |
+| `/api/revalidate`        | Webhook endpoint for on-demand revalidation  |
+| `/api/contact`           | Contact form delivery via Resend             |
+| `/api/newsletter`        | Newsletter signup                            |
+
+Sanity API routes send `Cache-Control: no-store`, so client-side refreshes always see published changes.
 
 ---
 
@@ -194,24 +208,33 @@ export default {
 | `npm start`          | Start production server   |
 | `npm run lint`       | Run ESLint                |
 | `npm run type-check` | Run TypeScript checks     |
-| `npm run format`     | Format code with Prettier |
+| `npm test`           | Run Playwright smoke tests |
 
 ---
 
 ## 🌐 Deployment
 
-### Vercel (Recommended)
+### Netlify (this project)
+
+Pushes to `main` trigger a Netlify production build through the Netlify API in `.github/workflows/deploy.yml`. Netlify runs `npm run build` from `netlify.toml` with its Next.js runtime, which is required for API routes, ISR, and webhook revalidation. Do **not** upload `.next/` as a static publish directory — that breaks those features.
+
+One-time setup:
+
+1. Connect the GitHub repository to the Netlify site so API-triggered builds have a Git source.
+2. Add `NETLIFY_AUTH_TOKEN` and `NETLIFY_SITE_ID` as GitHub repository secrets.
+3. Set these environment variables in Netlify (**Site configuration → Environment variables**):
+   - `NEXT_PUBLIC_SANITY_PROJECT_ID`
+   - `NEXT_PUBLIC_SANITY_DATASET`
+   - `NEXT_PUBLIC_SITE_URL`
+   - `SANITY_REVALIDATE_SECRET` (must match the Sanity webhook header)
+   - `RESEND_API_KEY` and `CONTACT_EMAIL` (optional, for the contact form)
+
+### Vercel
 
 1. Push your code to GitHub
 2. Import your repository on [Vercel](https://vercel.com)
-3. Configure environment variables
-4. Deploy! 🚀
-
-### Other Platforms
-
-- **Netlify** - Connect your GitHub repository
-- **Railway** - Deploy with `railway up`
-- **Docker** - Use the included `Dockerfile`
+3. Configure the same environment variables
+4. Add the Sanity webhook pointing to `https://<your-domain>/api/revalidate`
 
 ---
 
@@ -219,28 +242,18 @@ export default {
 
 ### Adding New Sections
 
-1. Create component in `components/sections/`
-2. Add to page in `pages/` or `app/`
+1. Create component in `src/app/components/`
+2. Add it to the relevant page under `src/app/`
 3. Configure routing if needed
 4. Add animations and styling
 
 ### Theme Customization
 
-```js
-// tailwind.config.js
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        primary: {
-          50: "#f0f9ff",
-          500: "#3b82f6",
-          900: "#1e3a8a",
-        },
-      },
-    },
-  },
-};
+```css
+/* src/app/globals.css */
+:root {
+  --terminal-accent: #00ff41;
+}
 ```
 
 ---
@@ -273,7 +286,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ## 🙋‍♂️ Support & Contact
 
 - **GitHub Issues** - [Report bugs or request features](https://github.com/hollali/hollali.dev/issues)
-- **Email** - [dheztinykartel@gmail.com.com](mailto:your.email@domain.com)
+- **Email** - [dheztinykartel@gmail.com](mailto:dheztinykartel@gmail.com)
 - **Website** - [https://hollali.dev](https://hollali.dev)
 - **Twitter** - [@hollali](https://twitter.com/h_ollali)
 
